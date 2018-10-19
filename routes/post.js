@@ -7,6 +7,11 @@ var router = express.Router();
 
 var PORT = 3000;
 
+//body parser to grab POST data
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 // creating mysql connection
 var connection = mysql.createConnection({
   host: "localhost",
@@ -22,7 +27,7 @@ var connection = mysql.createConnection({
   database: "homemadefood_db"
 });
 
-app.use(function(req, res, next) {
+router.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -32,17 +37,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.post("/", function(req, res) {
-  res.send({ message: "Testing to get data" });
-
+router.get("/posts", function(req, res) {
+  connection.query('SELECT * FROM posts', function(err, results, body){
+    err ? console.log(err) : res.json(results);
+  });
 });
 
 
-//imported routes
-var postRoute = require('./routes/post');
-app.use('/', postRoute);
-
-
-app.listen(PORT, function() {
-  console.log("App listening on PORT " + PORT);
-});
+module.exports = router;
