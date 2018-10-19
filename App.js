@@ -1,11 +1,8 @@
-import React from 'react';
-import Home from './app/components/Home/Home';
-import Login from './app/components/Login/Login';
+import * as React from "react";
+import RootStack from "./app/components/RootStack/RootStack";
 
 export default class App extends React.Component {
-  render() {
-    return (
-      <Login />
-    );
-  }
+	render() {
+		return <RootStack />;
+	}
 }
