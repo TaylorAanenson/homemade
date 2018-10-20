@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert, ActivityIndicator, FlatList } from 'react-native';
 import { MapView } from 'expo';
+import { TabNavigator } from 'react-navigation';
 
-export default class Login extends React.Component {
+export default class Posts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +13,7 @@ export default class Login extends React.Component {
   }
 
   componentDidMount(){
-    return fetch("https://cb830e33.ngrok.io/posts").then(
+    return fetch("https://518ef615.ngrok.io/posts").then(
       (res) => res.json()
       ).then((resJSON) => {
         this.setState({
@@ -37,16 +38,12 @@ export default class Login extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View className="title-bar">
-        </View>
         <View className="posts">
+          <Text style={{alignItems: 'center', marginTop: 20, justifyContent: 'center', alignSelf: 'stretch', }}>Homemade</Text>
           <FlatList
             data={this.state.dataSource}
             renderItem={({item}) => <Text dataId={item.id}> <Text style={styles.textStyle}>{item.title}</Text> - <Text>{item.information}</Text></Text>}
             keyExtractor={({id}, index) => id}
-            style={{
-              top: 100
-            }}
             />
           </View>
           <View className="navbar-footer">
