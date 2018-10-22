@@ -13,6 +13,7 @@ import {
 	ScrollView
 } from "react-native";
 import Map from "../Map/Map";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Home extends React.Component {
 	drop = () => {
@@ -52,7 +53,7 @@ export default class Home extends React.Component {
 				<View style={styles.search}>
 					<TextInput
 						type="text"
-						placeholder=" search for food or chef.."
+						placeholder= "search for food or chef.."
 						style={styles.foodSearch}
 					/>
 				</View>
@@ -168,7 +169,8 @@ const styles = StyleSheet.create({
 		height: 40,
 		// marginTop: 10
 		marginLeft: 5,
-		marginRight: 5
+		marginRight: 5,
+		backgroundColor: '#fff'
 	},
 	location: {
 		flex: 0.03,
@@ -183,6 +185,7 @@ const styles = StyleSheet.create({
 		height: 40,
 		marginTop: -24,
 		marginLeft: 5,
-		marginRight: 5
+		marginRight: 5,
+		backgroundColor: '#fff'
 	}
 });

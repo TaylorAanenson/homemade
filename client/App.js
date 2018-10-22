@@ -1,15 +1,11 @@
 import React from 'react';
-import Home from './app/components/Home/Home';
-import Login from './app/components/Login/Login';
-import Post from './app/components/Post/Post';
-import TabNavigator from './app/components/TabNavigator/TabNavigator'
+import BottomNavigation from './app/components/BottomNavigation/BottomNavigation';
 
 export default class App extends React.Component {
-	
+
 	render() {
 		return (
-		  // <Login />
-		  <Post />
+		  <BottomNavigation />
 		);
 	}
 }

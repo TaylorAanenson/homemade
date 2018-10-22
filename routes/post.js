@@ -37,11 +37,16 @@ router.use(function(req, res, next) {
   next();
 });
 
+//Create GET post routes to get n
 router.get("/posts", function(req, res) {
-  connection.query('SELECT * FROM posts', function(err, results, body){
+  connection.query(
+    'SELECT * FROM posts, locations, users WHERE posts.location_id = locations.id and posts.user_id = users.id', 
+    function(err, results, body){
     err ? console.log(err) : res.json(results);
   });
 });
 
-
+//Create POST post route to add new posts
+//Create PUT editing post route
+//Create DELETE post route
 module.exports = router;

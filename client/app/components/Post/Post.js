@@ -38,16 +38,19 @@ export default class Posts extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View className="posts">
-          <Text style={{alignItems: 'center', marginTop: 20, justifyContent: 'center', alignSelf: 'stretch', }}>Homemade</Text>
-          <FlatList
-            data={this.state.dataSource}
-            renderItem={({item}) => <Text dataId={item.id}> <Text style={styles.textStyle}>{item.title}</Text> - <Text>{item.information}</Text></Text>}
-            keyExtractor={({id}, index) => id}
-            />
-          </View>
-          <View className="navbar-footer">
-          </View>
+        <View style={{flex:1, marginTop: 20, flexDirection: 'column'}}>
+        {this.state.data.map((postInfo) => {
+          return(<View style={styles.postStyle} dataId={postInfo.id}>
+              <Image
+                  style={{width: 100, height: 100}}
+                  source={{url:("https://via.placeholder.com/50x50")}}
+              />
+              <Text style={styles.textStyle}>{postInfo.title}</Text>
+              <Text>{postInfo.information}</Text>
+              <Text style={styles.textStyle, styles.priceStyle}>${postInfo.price}</Text>
+          </View>);
+        })}
+        </View>
       </View>
     );
   }
@@ -56,12 +59,24 @@ export default class Posts extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'orange',
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    flexDirection: 'row'
   },
   textStyle: {
     fontSize: 20,
+  },
+  priceStyle:{
+    fontSize: 20,
+    color: 'green',
+    alignItems:'right',
+    justifyContent: 'flex-end',
+  },
+  postStyle: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'grey',
   }
 });
