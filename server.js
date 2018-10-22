@@ -33,7 +33,7 @@ app.use(function(req, res, next) {
 });
 
 app.post("/", function(req, res) {
-  res.send({ message: "Testing to get data" });
+  res.send({ message: "Testing to get data"});
 
 });
 
