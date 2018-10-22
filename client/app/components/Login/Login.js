@@ -14,7 +14,7 @@ export default class App extends React.Component {
   }
 
   checkLogin = () => {
-
+    
     // change this part to whatever is needed
     // might change this part to contain async instead
     fetch('http://2d23204a.ngrok.io', {
