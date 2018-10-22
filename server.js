@@ -56,7 +56,6 @@ app.post("/", function(req, res) {
     }
 
   });
-  // res.json({ message: "Testing to get data" });
 });
 
 app.get("/", function(req, res) {
