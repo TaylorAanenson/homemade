@@ -47,6 +47,9 @@ router.get("/posts", function(req, res) {
 });
 
 //Create POST post route to add new posts
+router.post("/posts", function(req, res){
+  
+});
 //Create PUT editing post route
 //Create DELETE post route
 module.exports = router;
