@@ -5,11 +5,46 @@ import { MapView } from 'expo';
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+    this.state = {
+      text: '',
+      username: '',
+      password: '',
+      logged_in: 'nothing'
+    };
   }
 
-  submit = () => {
-    Alert.alert('hi');
+  checkLogin = () => {
+
+    // change this part to whatever is needed
+    fetch('http://2d23204a.ngrok.io', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
+    })
+    // we need to have double JSON's for
+    // some reason in react to turn into object.
+    .then(res => res.json())
+    .then((response) => {
+      console.log(response);
+      // here we can set state to say if true or if false.
+
+      this.setState({
+        logged_in: response
+      }, function(){
+
+        // here is the code to navigate to whatever page you want
+        // after being logged in...
+        // currently it's just telling you whether or not
+        // you have logged in based on your inputs
+        // this.props.navigation.navigate('Profile');
+      })
+    });
   }
 
   render() {
@@ -22,20 +57,15 @@ export default class Login extends React.Component {
           margin: 2,
           color: 'orange'
         }}>HomeMade</Text>
-        <TextInput
-          style={styles.signin}
-          placeholder="Username"
-          onChangeText={(text) => this.setState({text})}
-        />
-        <TextInput
-          secureTextEntry={true}
-          style={styles.signin}
-          placeholder="Password"
-          onChangeText={(text) => this.setState({text})}
-        />
-        <TouchableOpacity onPress={this.submit}>
-           <Text>Submit</Text>
+        <TextInput style={styles.signin} placeholder="Username"
+        onChangeText={(username) => this.setState({username})}/>
+        <TextInput style={styles.signin} placeholder="Password"
+        onChangeText={(password) => this.setState({password})}/>
+        <TouchableOpacity onPress={this.checkLogin}>
+          <Text style={styles.buttonText}>Button</Text>
         </TouchableOpacity>
+        {this.state.logged_in == true && <Text>you are logged in</Text>}
+        {this.state.logged_in == false && <Text>you are not logged in</Text>}
       </View>
     );
   }
@@ -54,8 +84,8 @@ const styles = StyleSheet.create({
     width: 190
   },
   signin: {
-    height: 40, 
-    width: 100, 
+    height: 40,
+    width: 100,
     backgroundColor: '#fff',
     borderWidth: 0.5,
     borderRadius: 4,
