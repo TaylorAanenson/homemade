@@ -66,6 +66,12 @@ app.get("/", function(req, res) {
   });
 });
 
+
+//imported routes
+var postRoute = require('./routes/post');
+app.use('/', postRoute);
+
+
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
 });
