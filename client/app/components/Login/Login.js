@@ -14,7 +14,7 @@ export default class App extends React.Component {
   }
 
   checkLogin = () => {
-    
+
     // change this part to whatever is needed
     // might change this part to contain async instead
     fetch('http://2d23204a.ngrok.io', {
@@ -33,8 +33,8 @@ export default class App extends React.Component {
     .then(res => res.json())
     .then((response) => {
       console.log(response);
-      // here we can set state to say if true or if false.
 
+      // response is a bool value
       this.setState({
         logged_in: response
       }, function(){

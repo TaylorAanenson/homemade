@@ -41,11 +41,18 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get("/", function(req, res) {
+  connection.query("SELECT * FROM users", function(error, results, body) {
+    if (error) console.log(error);
+    // res.json(results);
+    res.send("hello")
+  });
+});
+
 // HERE, WE STILL NEED TO ENCRYPT PASSWORDS
-app.post("/", function(req, res) {
+app.post("/login", function(req, res) {
   console.log(req.body);
   var query = "SELECT * FROM users WHERE username = ? AND password = ?";
-
   connection.query(query, [req.body.username, req.body.password], function(error, results, body) {
     if (error) console.log(error);
     console.log(results.length);
@@ -54,14 +61,26 @@ app.post("/", function(req, res) {
     } else {
       res.json(true);
     }
-
   });
 });
 
-app.get("/", function(req, res) {
-  connection.query("SELECT * FROM users", function(error, results, body) {
+app.post("/register", function(req, res) {
+  console.log("hi");
+  console.log(req.body);
+  var queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
+  connection.query(queryCheck, [req.body.username, req.body.email], function(error, results, body) {
     if (error) console.log(error);
-    res.json(results);
+    console.log(results.length);
+    if(results.length == 0) {
+			var queryInsert = "INSERT INTO users (username, email, password, firstname, lastname) VALUES (?,?,?,'x','x')";
+
+			connection.query(queryInsert, [req.body.username, req.body.password, req.body.email], function(error, results, body) {
+					res.json(true);
+			});
+    }
+		else {
+      res.json(false);
+    }
   });
 });
 
