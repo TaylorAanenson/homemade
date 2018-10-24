@@ -1,7 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert, ActivityIndicator, FlatList } from 'react-native';
-import { MapView } from 'expo';
-import { TabNavigator } from 'react-navigation';
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 
 export default class Posts extends React.Component {
   constructor(props) {

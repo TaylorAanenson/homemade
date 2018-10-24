@@ -43,9 +43,6 @@ app.use(function(req, res, next) {
 
 // HERE, WE STILL NEED TO ENCRYPT PASSWORDS
 app.post("/", function(req, res) {
-<<<<<<< HEAD
-  res.send({ message: "Testing to get data"});
-=======
   console.log(req.body);
   var query = "SELECT * FROM users WHERE username = ? AND password = ?";
 
@@ -61,7 +58,6 @@ app.post("/", function(req, res) {
   });
   // res.json({ message: "Testing to get data" });
 });
->>>>>>> 07988ad98d0624e2120b781faefd94751b8e1fa9
 
 app.get("/", function(req, res) {
   connection.query("SELECT * FROM users", function(error, results, body) {
