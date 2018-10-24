@@ -2,6 +2,26 @@ import * as React from "react";
 import { View, Text, Button } from "react-native";
 
 export default class SettingsScreen extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: ""
+		};
+	}
+
+	fetcher = () => {
+		return fetch("http://9e0eefb6.ngrok.io/posts").then(res => res.json());
+	};
+
+	handleSubmit() {
+		this.fetcher().then(res => {
+			console.log(res);
+			// this.props.navigator.push({
+			// 	passProps: { userInfo: res }
+			// });
+		});
+	}
+
 	static navigationOptions = ({ navigation }) => {
 		// const params = navigation.state.params || {};
 
@@ -39,6 +59,10 @@ export default class SettingsScreen extends React.Component {
 				<Button
 					title="Go to Cart"
 					onPress={() => this.props.navigation.navigate("Cart")}
+				/>
+				<Button
+					title="Pull Data"
+					onPress={() => this.handleSubmit()}
 				/>
 			</View>
 		);

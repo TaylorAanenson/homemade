@@ -27,7 +27,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "password",
+  password: "",
   database: "homemadefood_db"
 });
 
@@ -52,7 +52,7 @@ app.post("/", function(req, res) {
     if(results.length == 0) {
       res.json(false);
     } else {
-      res.json(true);
+      res.json(results);
     }
 
   });

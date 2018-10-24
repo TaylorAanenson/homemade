@@ -9,12 +9,49 @@ import {
 	Alert,
 	StyleSheet,
 	View,
-	ScrollView
+	ScrollView,
+	ActivityIndicator
 } from "react-native";
 import Map from "../Map/Map";
 // import LogoTitle from "../ModalStack/LogoTitle";
 
 export default class BrowseScreen extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
+	fetcher = () => {
+		return fetch("http://9e0eefb6.ngrok.io/posts")
+		.then(res => res.json())
+		.then(res => {
+			this.setState({
+				data: res
+			});
+			console.log(this.state.data);
+		})
+		.catch(err => {
+			console.log(err);
+		});
+	};
+
+	handleSubmit() {
+		this.fetcher().then(res => {
+			console.log(res);
+			// this.props.navigator.push({
+			// 	passProps: { userInfo: res }
+			// });
+		});
+	}
+
+	componentDidMount() {
+		this.handleSubmit();
+	}
+
+	// componentDidUpdate() {
+	// 	this.handleSubmit();
+	// }
+
 	static navigationOptions = ({ navigation }) => {
 		// const params = navigation.state.params || {};
 
@@ -129,13 +166,13 @@ export default class BrowseScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-	// container: {
-	// flex: 1,
-	// flexDirection: "row",
-	// backgroundColor: "#fff",
-	// alignItems: "center"
-	// justifyContent: "center"
-	// },
+	container: {
+		flex: 1,
+		flexDirection: "row",
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center"
+	},
 	// nav: {
 	// 	flex: 0.1,
 	// 	flexDirection: "row",
