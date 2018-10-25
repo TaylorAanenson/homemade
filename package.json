@@ -1,24 +1,31 @@
 {
-  "name": "project-3",
+  "name": "homemade",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaylorAanenson/homemade.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TaylorAanenson/homemade/issues"
+  },
+  "homepage": "https://github.com/TaylorAanenson/homemade#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.16.4",
-    "jsonwebtoken": "^8.3.0",
-    "bcryptjs": "^2.4.3",
+    "bcryptjs": "2.4.3",
+    "body-parser": "1.18.3",
+    "cookie-parser": "1.4.3",
+    "express": "4.16.4",
     "dotenv": "^6.1.0",
-    "mysql": "^2.16.0"
+    "jsonwebtoken": "^8.3.0",
+    "express-session": "1.15.6",
+    "method-override": "3.0.0",
+    "mysql": "2.16.0"
   }
 }

@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert} from
 import {_signUp, _login} from '../../../src/AuthentificationService'
 import { MapView } from 'expo';
 
-export default class App extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
