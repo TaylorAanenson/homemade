@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert} from 'react-native';
+import {_signUp, _login} from '../../../src/AuthentificationService'
 import { MapView } from 'expo';
 
 export default class App extends React.Component {
@@ -13,38 +14,29 @@ export default class App extends React.Component {
     };
   }
 
-  checkLogin = () => {
+  checkLogin = event => {
+    let username = this.state.username;
+    let password = this.state.password;
+    console.log("Line 46");
 
-    // change this part to whatever is needed
-    // might change this part to contain async instead
-    fetch('http://2d23204a.ngrok.io', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
-      })
-    })
-    // we need to have double JSON's for
-    // some reason in react to turn into object.
-    .then(res => res.json())
-    .then((response) => {
-      console.log(response);
+    return _login(username, password).then(res => {
+      // has trouble reaching here..
+      if (res.token) {
+        console.log(res);
 
-      // response is a bool value
-      this.setState({
-        logged_in: response
-      }, function(){
+        this.setState({logged_in: true}, function() {
+          console.log("You are logged in");
+          AsyncStorage.setItem('token', res.token);
 
-        // here is the code to navigate to whatever page you want
-        // after being logged in...
-        // currently it's just telling you whether or not
-        // you have logged in based on your inputs
-        // this.props.navigation.navigate('Profile');
-      })
+          // here is the code to navigate to whatever page you want
+          // after being logged in...
+          // currently it's just telling you whether or not
+          // you have logged in based on your inputs
+          // this.props.navigation.navigate('Profile');
+        });
+      } else {
+        console.log("You were not logged in");
+      }
     });
   }
 
