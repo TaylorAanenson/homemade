@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
   priceStyle:{
     fontSize: 20,
     color: 'green',
-    alignItems:'right',
     justifyContent: 'flex-end',
   },
   postStyle: {

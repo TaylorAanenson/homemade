@@ -9,8 +9,16 @@ export default class AddPost extends React.Component {
 			        <Text>Title: </Text>
 					<TextInput style={styles.inputStyle} placeholder="Title..." />
         
-			        <Text style={styles.spacing} >Description:</Text>
+			        <Text style={styles.spacing}>Description:</Text>
 					<TextInput style={styles.inputStyle} multiline={true} placeholder="Description..." />
+
+					<Text style={styles.spacing}>Ingredients:</Text>
+					<TextInput style={styles.inputStyle} multiline={true} placeholder="Insert a comma after every ingredients..." />
+
+					<Text style={styles.spacing}>Cuisine:</Text>
+					<TextInput style={styles.inputStyle} placeholder="Enter Type of Cuisine..." />
+
+					
 
 			        <Button color="tomato" title="Submit"/>
 		        </View>
@@ -18,7 +26,6 @@ export default class AddPost extends React.Component {
 		)
 	}
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -35,7 +42,8 @@ const styles = StyleSheet.create({
     borderColor: 'grey'
   },
   spacing: {
-    marginTop: 10
+    marginTop: 10,
+    marginBottom: 10,
   }
 });
 
