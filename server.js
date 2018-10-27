@@ -79,7 +79,7 @@ app.post("/login", function(req, res) {
 		return res.json({
 				message: 'successfuly authenticated',
 				token: token,
-				bool: true
+				bool: true,
         result: result
 		});
 
