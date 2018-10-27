@@ -30,7 +30,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "password",
+  password: "",
   database: "homemadefood_db"
 });
 
@@ -80,6 +80,7 @@ app.post("/login", function(req, res) {
 				message: 'successfuly authenticated',
 				token: token,
 				bool: true
+        result: result
 		});
 
   });
