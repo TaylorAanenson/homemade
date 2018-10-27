@@ -1,17 +1,10 @@
-import React from "react";
-import {
-	StyleSheet,
-	Text,
-	TextInput,
-	View,
-	Image,
-	TouchableOpacity,
-	Alert
-} from "react-native";
-import { MapView } from "expo";
+import React from 'react';
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert} from 'react-native';
+import {_signUp, _login} from '../../../src/AuthentificationService'
+import { MapView } from 'expo';
 
-export default class App extends React.Component {
-	constructor(props) {
+export default class Login extends React.Component {
+  constructor(props) {
 		super(props);
 		this.state = {
 			text: "",
@@ -26,43 +19,34 @@ export default class App extends React.Component {
 		};
 	}
 
-	checkLogin = () => {
-		// change this part to whatever is needed
-		fetch("http://localhost:3000", {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				username: this.state.username,
-				password: this.state.password
-			})
-		})
-			// we need to have double JSON's for
-			// some reason in react to turn into object.
-			.then(res => res.json())
-			.then(response => {
-				console.log(response);
-				// here we can set state to say if true or if false.
-				if (response) {
-					this.setState(
-						{
-							logged_in: response,
-							id: response[0].id,
-							username: response[0].username,
-							email: response[0].email,
-							firstname: response[0].firstname,
-							lastname: response[0].lastname,
-							create_date: response[0].create_date
-						},
-						function() {
-							// here is the code to navigate to whatever page you want
-							// after being logged in...
-							// currently it's just telling you whether or not
-							// you have logged in based on your inputs
+  checkLogin = event => {
+    let username = this.state.username;
+    let password = this.state.password;
+    console.log("Line 46");
 
-							this.props.navigation.navigate("Profile", {
+    return _login(username, password).then(res => {
+      // has trouble reaching here..
+      if (res.token) {
+        console.log(res);
+
+        this.setState(
+          {
+            logged_in: true,
+            id: response[0].id,
+						username: response[0].username,
+						email: response[0].email,
+						firstname: response[0].firstname,
+						lastname: response[0].lastname,
+						create_date: response[0].create_date
+          }, function() {
+          console.log("You are logged in");
+          AsyncStorage.setItem('token', res.token);
+
+          // here is the code to navigate to whatever page you want
+          // after being logged in...
+          // currently it's just telling you whether or not
+          // you have logged in based on your inputs
+          this.props.navigation.navigate("Profile", {
 								_id: this.state.id,
 								username: this.state.username,
 								email: this.state.email,
@@ -70,17 +54,22 @@ export default class App extends React.Component {
 								lastname: this.state.lastname,
 								create_date: this.state.create_date
 							});
+        });
+      } else {
+        console.log("You were not logged in");
+        this.setState(
+						{
+							logged_in: false
+						},
+						function() {
+							this.props.navigation.navigate("Register");
 						}
 					);
-				} else {
-					this.setState({
-						logged_in: response
-					});
-				}
-			});
-	};
+      }
+    });
+  }
 
-	render() {
+  render() {
 		return (
 			<View style={styles.container}>
 				<Image
