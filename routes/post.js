@@ -50,9 +50,10 @@ router.get("/posts", function(req, res) {
 router.post("/posts", function(req, res){
   console.log(req.body);
   // var data = JSON.parse(req.body);
-  // var data = JSON.parse(JSON.stringify(req.body));
+  var ingredients = JSON.stringify(req.body.ingredients);
+
   connection.query(
-    'INSERT INTO posts SET user_id = ?, location_id = ?, title = ?, information = ?, ingredients = ?, price = ?', [req.body.user_id, req.body.location_id, req.body.title, req.body.information, req.body.ingredients, req.body.price],
+    'INSERT INTO posts SET user_id = ?, location_id = ?, title = ?, information = ?, ingredients = ?, price = ?', [req.body.user_id, req.body.location_id, req.body.title, req.body.information, ingredients, req.body.price],
     function(err, results, body){
       err ? console.log(err) : console.log("New food post added!");
     }
