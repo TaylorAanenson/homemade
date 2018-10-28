@@ -9,7 +9,8 @@ import {
 	List,
 	FlatList,
 	ListItem,
-	ScrollView
+	ScrollView,
+	ActivityIndicator
 } from "react-native";
 import RecentImage from "./assets/images/recent.png";
 import PopularImage from "./assets/images/popular.png";
@@ -19,6 +20,53 @@ import NearbyImage from "./assets/images/nearby.png";
 import PriceImage from "./assets/images/Sort-by-price.png";
 
 export default class SettingsScreen extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isLoading: true
+		};
+	}
+
+	fetcher = () => {
+		return fetch("http://localhost:3000")
+			.then(res => res.json())
+			.then(res => {
+				this.setState({
+					isLoading: false,
+					data: res
+				});
+				console.log(this.state.data);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+	// handleSubmit() {
+	// 	this.fetcher().then(res => {
+	// 		this.setState(res);
+	// 		console.log(this.state);
+	// 		this.dataMap(res);
+	// 	});
+	// }
+
+	componentDidMount() {
+		this.fetcher();
+	}
+
+	// componentDidUpdate() {
+	// 	this.handleSubmit();
+	// }
+
+	// dataMap(thing) {
+	// 	let a = thing.map();
+	// 	return <Text>{a}</Text>;
+	// }
+
+	// {this.state.results.map((data) => {
+	//              return <Text>{data.username}</Text>;
+	//            })}
+
 	static navigationOptions = ({ navigation }) => {
 		// const params = navigation.state.params || {};
 
@@ -46,6 +94,13 @@ export default class SettingsScreen extends React.Component {
 	};
 
 	render() {
+		if (this.state.isLoading) {
+			return (
+				<View style={styles.container}>
+					<ActivityIndicator />
+				</View>
+			);
+		}
 		return (
 			<View style={{ flex: 1 }}>
 				<View style={styles.search}>
@@ -90,72 +145,93 @@ export default class SettingsScreen extends React.Component {
 						<Text>Price</Text>
 					</View>
 				</View>
+				{/* <ScrollView style={{ flex: 1 }}>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+					<View>
+						<Image source={PopularImage} style={styles.image} />
+						<Text>Popular</Text>
+					</View>
+				</ScrollView> */}
+
 				{/* <List>
-                    <FlatList 
-                    <ListItem 
-                        <Image source={PopularImage} style={styles.image} />
-                        <Text>Popular</Text>
-                    /> */}
-				<ScrollView style={{ flex: 1 }}>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
-					<View>
-						<Image source={PopularImage} style={styles.image} />
-						<Text>Popular</Text>
-					</View>
+					<FlatList
+						data={this.state.data}
+						renderItem={({ item }) => 
+						<ListItem 
+							title={item.state.name} 
+							keyExtractor={item => item.id}
+						/>}
+					/>
+				</List> */}
+
+				<ScrollView>
+					{this.state.data.map(data => {
+						return (
+							<View style={{ flex: 1, flexDirection: "row" }}>
+								<Text keyExtractor={data.id}>{data.name}</Text>
+							</View>
+						);
+					})}
 				</ScrollView>
-				{/* /> */}
-				{/* </List> */}
+
 			</View>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		// flexDirection: "row",
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center"
+	},
 	search: {
-		flex: 0.1,
+		flex: 0.13,
 		flexDirection: "row",
 		backgroundColor: "#ffa500"
 	},
@@ -172,7 +248,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff"
 	},
 	location: {
-		flex: 0.09,
+		flex: 0.12,
 		flexDirection: "row",
 		backgroundColor: "#ffa500"
 	},
