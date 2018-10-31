@@ -37,10 +37,10 @@ router.use(function(req, res, next) {
   next();
 });
 
-//Create GET post routes to get n
+//Create GET post routes to get all post
 router.get("/posts", function(req, res) {
   connection.query(
-    'SELECT * FROM posts, locations, users WHERE posts.location_id = locations.id and posts.user_id = users.id', 
+    'SELECT * FROM posts, locations, users WHERE posts.location_id = locations.id and posts.user_id = users.id ORDER BY posts.id DESC', 
     function(err, results, body){
     err ? console.log(err) : res.json(results);
   });
@@ -48,8 +48,29 @@ router.get("/posts", function(req, res) {
 
 //Create POST post route to add new posts
 router.post("/posts", function(req, res){
-  
+  console.log(req.body);
+  // var data = JSON.parse(req.body);
+  var ingredients = JSON.stringify(req.body.ingredients);
+
+  connection.query(
+    'INSERT INTO posts SET user_id = ?, location_id = ?, title = ?, information = ?, ingredients = ?, price = ?', [req.body.user_id, req.body.location_id, req.body.title, req.body.information, ingredients, req.body.price],
+    function(err, results, body){
+      err ? console.log(err) : console.log("New food post added!");
+    }
+  );
 });
+
+//Create GET post route to get only information for one post
+router.get("/posts/:id", function(req, res) {
+  connection.query(
+    'SELECT * FROM posts, locations, users WHERE posts.location_id = locations.id and posts.user_id = users.id and posts.id = ' + req.params.id, 
+    function(err, results, body){
+    err ? console.log(err) : res.json(results);
+  });
+});
+
+//C
+
 //Create PUT editing post route
 //Create DELETE post route
 module.exports = router;
