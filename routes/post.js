@@ -40,7 +40,7 @@ router.use(function(req, res, next) {
 //Create GET post routes to get all post
 router.get("/posts", function(req, res) {
   connection.query(
-    'SELECT * FROM posts, locations, users WHERE posts.location_id = locations.id and posts.user_id = users.id', 
+    'SELECT * FROM posts, locations, users WHERE posts.location_id = locations.id and posts.user_id = users.id ORDER BY posts.id DESC', 
     function(err, results, body){
     err ? console.log(err) : res.json(results);
   });
@@ -68,6 +68,8 @@ router.get("/posts/:id", function(req, res) {
     err ? console.log(err) : res.json(results);
   });
 });
+
+//C
 
 //Create PUT editing post route
 //Create DELETE post route
