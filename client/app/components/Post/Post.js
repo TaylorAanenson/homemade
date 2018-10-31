@@ -45,7 +45,7 @@ export default class App extends React.Component {
       console.log(this.state.data)
     }).catch(err => console.log(err));
 
-    // this.setState({search: ""});
+    this.setState({search: ""});
   }
 
   componentDidMount() {
