@@ -30,7 +30,7 @@ export default class App extends React.Component {
   }
 
   searchPost = () => {
-    fetch("http://localhost:3000/posts")
+    fetch("http://9debcb53.ngrok.io/posts")
       .then(res => res.json())
       .then(
         resJSON => {
@@ -40,19 +40,17 @@ export default class App extends React.Component {
             return postData.information.includes(this.state.search);
           });
           this.setState({ data: searchData });
-          console.log(this.state.data[0]);
+          // console.log(this.state.data[0]);
         },
         function() {
-          console.log(this.state.data);
+          this.setState({ search: "" });
         }
       )
       .catch(err => console.log(err));
-
-    this.setState({ search: "" });
   };
 
   componentDidMount() {
-    return fetch("http://localhost:3000/posts")
+    return fetch("http://9debcb53.ngrok.io/posts")
       .then(res => res.json())
       .then(resJSON => {
         this.setState(
