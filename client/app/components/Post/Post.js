@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -9,53 +9,56 @@ import {
   Alert,
   ActivityIndicator,
   FlatList,
-  ScrollView,
-} from 'react-native';
-import { Button } from 'react-native-elements';
-import { MapView } from 'expo';
-import { createStackNavigator } from 'react-navigation';
-import RootStack from './components/RootStack';
-import AssetExmaple from './components/AssetExample';
-import Icon from 'react-native-vector-icons/FontAwesome';
+  ScrollView
+} from "react-native";
+import { Button } from "react-native-elements";
+import { MapView } from "expo";
+import { createStackNavigator } from "react-navigation";
+import RootStack from "./components/RootStack";
+import AssetExmaple from "./components/AssetExample";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+      text: "",
       isLoading: true,
       data: {},
-      search: "",
+      search: ""
     };
   }
 
-
   searchPost = () => {
-    fetch('http://9debcb53.ngrok.io/posts')
-    .then(res => res.json())
-    .then(resJSON => {
-      // alert((resJSON[4].information).includes(this.state.search));
-      // alert(resJSON[0].title);
-      let searchData = resJSON.filter(postData =>{
-        return ((postData.information).includes(this.state.search))
-      });
-      this.setState({data: searchData});
-      console.log(this.state.data[0]);
-    }, function(){
-      console.log(this.state.data)
-    }).catch(err => console.log(err));
+    fetch("http://localhost:3000/posts")
+      .then(res => res.json())
+      .then(
+        resJSON => {
+          // alert((resJSON[4].information).includes(this.state.search));
+          // alert(resJSON[0].title);
+          let searchData = resJSON.filter(postData => {
+            return postData.information.includes(this.state.search);
+          });
+          this.setState({ data: searchData });
+          console.log(this.state.data[0]);
+        },
+        function() {
+          console.log(this.state.data);
+        }
+      )
+      .catch(err => console.log(err));
 
-    this.setState({search: ""});
-  }
+    this.setState({ search: "" });
+  };
 
   componentDidMount() {
-    return fetch('http://9debcb53.ngrok.io/posts')
+    return fetch("http://localhost:3000/posts")
       .then(res => res.json())
       .then(resJSON => {
         this.setState(
           {
             isLoading: false,
-            data: resJSON,
+            data: resJSON
           },
           function() {}
         );
@@ -75,15 +78,19 @@ export default class App extends React.Component {
     }
 
     return (
-      <View style={styles.container} >
+      <View style={styles.container}>
         <View style={styles.searchBarStyle}>
-          <TextInput style={styles.searchStyle} placeholder="enter search" onChangeText={search => this.setState({search})} value={this.state.search}/>
-          <Button 
+          <TextInput
+            style={styles.searchStyle}
+            placeholder="enter search"
+            onChangeText={search => this.setState({ search })}
+            value={this.state.search}
+          />
+          <Button
             icon={{
-                name: "search",
-                size: 20
+              name: "search",
+              size: 20
             }}
-
             buttonStyle={styles.buttonStyle}
             onPress={this.searchPost}
           />
@@ -94,9 +101,9 @@ export default class App extends React.Component {
               <View style={styles.postStyle} dataId={postInfo.id}>
                 <Image
                   style={{ width: 100, height: 100 }}
-                  source={{ url: 'https://via.placeholder.com/50x50' }}
+                  source={{ url: "https://via.placeholder.com/50x50" }}
                 />
-                <View style={{marginLeft: 20, flex: 1}}>
+                <View style={{ marginLeft: 20, flex: 1 }}>
                   <Text style={styles.textStyle}>{postInfo.title}</Text>
                   <Text>{postInfo.information}</Text>
                   <Text style={(styles.textStyle, styles.priceStyle)}>
@@ -115,28 +122,28 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'orange',
-    alignSelf: 'stretch',
-    flexDirection: 'column',
+    backgroundColor: "orange",
+    alignSelf: "stretch",
+    flexDirection: "column"
   },
   textStyle: {
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: "bold"
   },
   priceStyle: {
     fontSize: 20,
-    color: 'green',
+    color: "green",
     flex: 1,
-    textAlign: 'right',
+    textAlign: "right",
     marginTop: 20,
-    marginLeft: 20,
+    marginLeft: 20
   },
   postStyle: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderWidth: 1,
-    borderColor: 'grey',
+    borderColor: "grey",
     padding: 10,
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   searchStyle: {
     backgroundColor: "#fff",
@@ -144,12 +151,12 @@ const styles = StyleSheet.create({
     padding: 8,
     borderBottomWidth: 5,
     marginLeft: 5,
-    borderColor: 'orange',
+    borderColor: "orange",
     width: 300,
     height: 45
   },
   searchBarStyle: {
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   buttonStyle: {
     backgroundColor: "tomato",
@@ -157,6 +164,6 @@ const styles = StyleSheet.create({
     height: 45,
     alignContent: "center",
     borderRadius: 5,
-    marginTop: 25,
+    marginTop: 25
   }
 });
