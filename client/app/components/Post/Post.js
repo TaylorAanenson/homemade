@@ -14,11 +14,9 @@ import {
 import { Button } from "react-native-elements";
 import { MapView } from "expo";
 import { createStackNavigator } from "react-navigation";
-import RootStack from "./components/RootStack";
-import AssetExmaple from "./components/AssetExample";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default class App extends React.Component {
+export default class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +28,7 @@ export default class App extends React.Component {
   }
 
   searchPost = () => {
-    fetch("http://9debcb53.ngrok.io/posts")
+    fetch("http://localhost:3000/posts")
       .then(res => res.json())
       .then(
         resJSON => {
@@ -50,7 +48,7 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    return fetch("http://9debcb53.ngrok.io/posts")
+    return fetch("http://localhost:3000/posts")
       .then(res => res.json())
       .then(resJSON => {
         this.setState(
