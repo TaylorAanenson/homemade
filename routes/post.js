@@ -23,7 +23,7 @@ var connection = mysql.createConnection({
   user: "root",
 
   // Your password
-  password: "",
+  password: "password",
   database: "homemadefood_db"
 });
 
