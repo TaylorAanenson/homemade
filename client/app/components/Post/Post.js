@@ -9,14 +9,16 @@ import {
   Alert,
   ActivityIndicator,
   FlatList,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { Button } from "react-native-elements";
-import { MapView } from "expo";
-import { createStackNavigator } from "react-navigation";
-import RootStack from "./components/RootStack";
-import AssetExmaple from "./components/AssetExample";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { _verifier } from '../../../src/AuthentificationService';
+// import { MapView } from "expo";
+// import { createStackNavigator } from "react-navigation";
+// import RootStack from "./components/RootStack";
+// import AssetExmaple from "./components/AssetExample";
+// import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -30,7 +32,7 @@ export default class App extends React.Component {
   }
 
   searchPost = () => {
-    fetch("http://9debcb53.ngrok.io/posts")
+    fetch("http://localhost:3000/posts")
       .then(res => res.json())
       .then(
         resJSON => {
@@ -49,8 +51,43 @@ export default class App extends React.Component {
       .catch(err => console.log(err));
   };
 
+  checkToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // let token = JSON.stringify(value);
+        console.log('TOKEN!!' + value);
+        return _verifier(value).then(res => {
+          let tokenStr = JSON.stringify(res.verifiedToken);
+          let userData = JSON.parse(tokenStr);
+          console.log('STRING RETURN!!' + tokenStr);
+          console.log('PARSED RETURN!!' + userData);
+          if (userData.name === 'TokenExpiredError') {
+            Alert.alert('Session has expired');
+          } else {
+            this.setState({
+              isLoggedIn: userData.isLoggedIn,
+              id: userData._id,
+              username: userData.username,
+              email: userData.email,
+              firstname: userData.firstname,
+              lastname: userData.lastname,
+              create_date: userData.create_date
+            });
+          }
+        });
+      }
+    } catch (error) {
+      console.log('NO TOKEN!!!' + error);
+    }
+  };
+
+  componentWillMount() {
+    this.checkToken();
+  }
+
   componentDidMount() {
-    return fetch("http://9debcb53.ngrok.io/posts")
+    return fetch("http://localhost:3000/posts")
       .then(res => res.json())
       .then(resJSON => {
         this.setState(
@@ -89,7 +126,7 @@ export default class App extends React.Component {
               name: "search",
               size: 20
             }}
-            buttonStyle={styles.buttonStyle}
+            style={styles.buttonStyle}
             onPress={this.searchPost}
           />
         </View>

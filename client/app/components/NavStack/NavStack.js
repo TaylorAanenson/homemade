@@ -1,23 +1,28 @@
 import * as React from "react";
-// import { Font } from 'expo';
-// import { Button, Alert } from "react-native";
 import {
 	createStackNavigator,
 	createBottomTabNavigator
 } from "react-navigation";
 import Ionicons from "@expo/vector-icons/Ionicons";
-// Icons.loadAsync({'Ionicons' : require('react-native-vector-icons/Ionicons')})
 import BrowseScreen from "../BrowseScreen/BrowseScreen";
-import SearchScreen from "../SearchScreen/SearchScreen";
+import Post from "../Post/Post";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import SettingsScreen from "../SettingsScreen/SettingsScreen";
 import CartScreen from "../CartScreen/CartScreen";
-import withNavigationFocus from "../ModalStack/withNavigationFocus";
-import NavigationEvents from "../ModalStack/NavigationEvents";
-import LogoTitle from "../ModalStack/LogoTitle";
-// import ModalStack from '../ModalStack/ModalStack';
+import LogoTitle from "./LogoTitle";
+
+const header = {
+	headerTitle: <LogoTitle />,
+	headerStyle: {
+		backgroundColor: "#f4511e"
+	},
+	headerTintColor: "#fff",
+	headerTitleStyle: {
+		fontWeight: "bold"
+	}
+};
 
 const BrowseStack = createStackNavigator(
 	{
@@ -26,51 +31,18 @@ const BrowseStack = createStackNavigator(
 		}
 	},
 	{
-		// initialRouteName: "Browse",
-		navigationOptions: {
-			headerTitle: <LogoTitle />,
-			// headerRight: (
-			// 	<Button
-			// 		onPress={() => Alert.alert("this is a button!")}
-			// 		title="cart"
-			// 		color="#fff"
-			// 	/>
-			// ),
-			headerStyle: {
-				backgroundColor: "#f4511e"
-			},
-			headerTintColor: "#fff",
-			headerTitleStyle: {
-				fontWeight: "bold"
-			}
-		}
+		navigationOptions: header
 	}
 );
 
-const SearchStack = createStackNavigator(
+const PostStack = createStackNavigator(
 	{
-		Search: {
-			screen: SearchScreen
+		Post: {
+			screen: Post
 		}
 	},
 	{
-		navigationOptions: {
-			headerTitle: <LogoTitle />,
-			// headerRight: (
-			// 	<Button
-			// 		onPress={() => Alert.alert("this is a button!")}
-			// 		title="cart"
-			// 		color="#fff"
-			// 	/>
-			// ),
-			headerStyle: {
-				backgroundColor: "#f4511e"
-			},
-			headerTintColor: "#fff",
-			headerTitleStyle: {
-				fontWeight: "bold"
-			}
-		}
+		navigationOptions: header
 	}
 );
 
@@ -87,23 +59,7 @@ const ProfileStack = createStackNavigator(
 		}
 	},
 	{
-		navigationOptions: {
-			headerTitle: <LogoTitle />,
-			// headerRight: (
-			// 	<Button
-			// 		onPress={() => Alert.alert("this is a button!")}
-			// 		title="cart"
-			// 		color="#fff"
-			// 	/>
-			// ),
-			headerStyle: {
-				backgroundColor: "#f4511e"
-			},
-			headerTintColor: "#fff",
-			headerTitleStyle: {
-				fontWeight: "bold"
-			}
-		}
+		navigationOptions: header
 	}
 );
 
@@ -114,23 +70,7 @@ const SettingsStack = createStackNavigator(
 		}
 	},
 	{
-		navigationOptions: {
-			headerTitle: <LogoTitle />,
-			// headerRight: (
-			// 	<Button
-			// 		onPress={() => Alert.alert("this is a button!")}
-			// 		title="cart"
-			// 		color="#fff"
-			// 	/>
-			// ),
-			headerStyle: {
-				backgroundColor: "#f4511e"
-			},
-			headerTintColor: "#fff",
-			headerTitleStyle: {
-				fontWeight: "bold"
-			}
-		}
+		navigationOptions: header
 	}
 );
 
@@ -138,39 +78,17 @@ const CartStack = createStackNavigator(
 	{
 		Cart: {
 			screen: CartScreen
-		},
-		Focus: {
-			screen: withNavigationFocus
-		},
-		Events: {
-			screen: NavigationEvents
 		}
 	},
 	{
-		navigationOptions: {
-			headerTitle: <LogoTitle />,
-			// headerRight: (
-			// 	<Button
-			// 		onPress={() => Alert.alert("this is a button!")}
-			// 		title="cart"
-			// 		color="#fff"
-			// 	/>
-			// ),
-			headerStyle: {
-				backgroundColor: "#f4511e"
-			},
-			headerTintColor: "#fff",
-			headerTitleStyle: {
-				fontWeight: "bold"
-			}
-		}
+		navigationOptions: header
 	}
 );
 
 export default createBottomTabNavigator(
 	{
 		Browse: BrowseStack,
-		Search: SearchStack,
+		Search: PostStack,
 		Profile: ProfileStack,
 		Settings: SettingsStack,
 		Cart: CartStack

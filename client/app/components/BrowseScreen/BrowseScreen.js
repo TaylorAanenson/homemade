@@ -10,9 +10,11 @@ import {
 	StyleSheet,
 	View,
 	ScrollView,
-	ActivityIndicator
+	ActivityIndicator,
+	AsyncStorage
 } from "react-native";
 import Map from "../Map/Map";
+import { _verifier } from '../../../src/AuthentificationService';
 // import LogoTitle from "../ModalStack/LogoTitle";
 
 export default class BrowseScreen extends React.Component {
@@ -44,8 +46,40 @@ export default class BrowseScreen extends React.Component {
 		});
 	}
 
+	checkToken = async () => {
+		try {
+		  const value = await AsyncStorage.getItem('token');
+		  if (value !== null) {
+			// let token = JSON.stringify(value);
+			console.log('TOKEN!!' + value);
+			return _verifier(value).then(res => {
+			  let tokenStr = JSON.stringify(res.verifiedToken);
+			  let userData = JSON.parse(tokenStr);
+			  console.log('STRING RETURN!!' + tokenStr);
+			  console.log('PARSED RETURN!!' + userData);
+			  if (userData.name === 'TokenExpiredError') {
+				Alert.alert('Session has expired');
+			  } else {
+				this.setState({
+				  isLoggedIn: userData.isLoggedIn,
+				  id: userData._id,
+				  username: userData.username,
+				  email: userData.email,
+				  firstname: userData.firstname,
+				  lastname: userData.lastname,
+				  create_date: userData.create_date
+				});
+			  }
+			});
+		  }
+		} catch (error) {
+		  console.log('NO TOKEN!!!' + error);
+		}
+	  };
+
 	componentDidMount() {
 		this.handleSubmit();
+		this.checkToken();
 	}
 
 	// componentDidUpdate() {
