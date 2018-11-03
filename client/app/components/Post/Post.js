@@ -9,11 +9,11 @@ import {
   Alert,
   ActivityIndicator,
   FlatList,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { Button } from "react-native-elements";
-import { MapView } from "expo";
-import { createStackNavigator } from "react-navigation";
+import { _verifier } from '../../../src/AuthentificationService';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { _loadPosts } from './PostService';
 
@@ -50,6 +50,41 @@ export default class Post extends React.Component {
 
   buyPost = () => {
     Alert.alert('buy me')
+  }
+  
+  checkToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // let token = JSON.stringify(value);
+        console.log('TOKEN!!' + value);
+        return _verifier(value).then(res => {
+          let tokenStr = JSON.stringify(res.verifiedToken);
+          let userData = JSON.parse(tokenStr);
+          console.log('STRING RETURN!!' + tokenStr);
+          console.log('PARSED RETURN!!' + userData);
+          if (userData.name === 'TokenExpiredError') {
+            Alert.alert('Session has expired');
+          } else {
+            this.setState({
+              isLoggedIn: userData.isLoggedIn,
+              id: userData._id,
+              username: userData.username,
+              email: userData.email,
+              firstname: userData.firstname,
+              lastname: userData.lastname,
+              create_date: userData.create_date
+            });
+          }
+        });
+      }
+    } catch (error) {
+      console.log('NO TOKEN!!!' + error);
+    }
+  };
+
+  componentWillMount() {
+    this.checkToken();
   }
 
   componentDidMount() {
