@@ -13,9 +13,9 @@ import {
   AsyncStorage
 } from "react-native";
 import { Button } from "react-native-elements";
-import { _verifier } from '../../../src/AuthentificationService';
+import { _verifier } from "../../../src/AuthentificationService";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { _loadPosts } from './PostService';
+import { _loadPosts } from "./PostService";
 
 export default class Post extends React.Component {
   constructor(props) {
@@ -25,46 +25,48 @@ export default class Post extends React.Component {
       isLoading: true,
       data: {},
       search: "",
-      post: ''
+      post: ""
     };
   }
 
   searchPost = () => {
-    _loadPosts.then(
-      resJSON => {
-        let searchData = resJSON.filter(postData => {
-          return postData.information.includes(this.state.search);
-        });
-        this.setState({ data: searchData });
-      },
-      function() {
-        this.setState({ search: "" });
-      }
-    )
-    .catch(err => console.log(err));
+    _loadPosts
+      .then(
+        resJSON => {
+          let searchData = resJSON.filter(postData => {
+            return postData.information.includes(this.state.search);
+          });
+          this.setState({ data: searchData });
+        },
+        function() {
+          this.setState({ search: "" });
+        }
+      )
+      .catch(err => console.log(err));
   };
+
 
   viewPost = (post_id) => {
     this.props.navigation.navigate('PostInfo', { post_id });
   }
 
   buyPost = () => {
-    Alert.alert('buy me')
-  }
-  
+    Alert.alert("buy me");
+  };
+
   checkToken = async () => {
     try {
-      const value = await AsyncStorage.getItem('token');
+      const value = await AsyncStorage.getItem("token");
       if (value !== null) {
         // let token = JSON.stringify(value);
-        console.log('TOKEN!!' + value);
+        console.log("TOKEN!!" + value);
         return _verifier(value).then(res => {
           let tokenStr = JSON.stringify(res.verifiedToken);
           let userData = JSON.parse(tokenStr);
-          console.log('STRING RETURN!!' + tokenStr);
-          console.log('PARSED RETURN!!' + userData);
-          if (userData.name === 'TokenExpiredError') {
-            Alert.alert('Session has expired');
+          console.log("STRING RETURN!!" + tokenStr);
+          console.log("PARSED RETURN!!" + userData);
+          if (userData.name === "TokenExpiredError") {
+            Alert.alert("Session has expired");
           } else {
             this.setState({
               isLoggedIn: userData.isLoggedIn,
@@ -79,7 +81,7 @@ export default class Post extends React.Component {
         });
       }
     } catch (error) {
-      console.log('NO TOKEN!!!' + error);
+      console.log("NO TOKEN!!!" + error);
     }
   };
 
@@ -88,18 +90,19 @@ export default class Post extends React.Component {
   }
 
   componentDidMount() {
-    return _loadPosts().then(resJSON => {
-      this.setState(
-        {
-          isLoading: false,
-          data: resJSON
-        },
-        function() {}
-      );
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    return _loadPosts()
+      .then(resJSON => {
+        this.setState(
+          {
+            isLoading: false,
+            data: resJSON
+          },
+          function() {}
+        );
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   render() {
@@ -132,6 +135,7 @@ export default class Post extends React.Component {
         <ScrollView>
           {this.state.data.map(postInfo => {
             return (
+
               <TouchableOpacity style={styles.postStyle} key={postInfo.post_id} onPress={() => this.viewPost(postInfo.post_id)}>
                 <Image
                   style={{ width: 100, height: 100 }}
@@ -140,8 +144,17 @@ export default class Post extends React.Component {
                 <View style={{ marginLeft: 20, flex: 1 }}>
                   <Text style={styles.textStyle}>{postInfo.title}</Text>
                   <Text>{postInfo.information}</Text>
-                  <TouchableOpacity style={{alignContent: 'flex-end', marginLeft: 120, marginTop: 10}} onPress={this.buyPost}>
-                    <Text style={styles.buyButtonStyle}>{"$" + postInfo.price}</Text>
+                  <TouchableOpacity
+                    style={{
+                      alignContent: "flex-end",
+                      marginLeft: 120,
+                      marginTop: 10
+                    }}
+                    onPress={this.buyPost}
+                  >
+                    <Text style={styles.buyButtonStyle}>
+                      {"$" + postInfo.price}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </TouchableOpacity>
@@ -207,16 +220,16 @@ const styles = StyleSheet.create({
     width: 50,
     height: 45,
     alignContent: "center",
-    borderRadius: 5,
+    borderRadius: 5
   },
   buyButtonStyle: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     borderRadius: 10,
-    backgroundColor: '#f4511e',
+    backgroundColor: "#f4511e",
     padding: 10,
     flex: 1,
-    textAlign: 'center'
+    textAlign: "center"
   }
 });

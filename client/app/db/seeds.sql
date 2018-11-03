@@ -1,5 +1,5 @@
 INSERT INTO users (username, email, password, firstname, lastname)
-VALUES 
+VALUES
 ('aaaa', 'aaaa@gmail.com', 'aaaa', 'User', 'One'),
 ('ssss', 'ssss@gmail.com', 'ssss', 'User', 'Two'),
 ('dddd', 'dddd@gmail.com', 'dddd', 'User', 'Three'),
@@ -36,3 +36,9 @@ VALUES
 (2, 1),
 (4, 2),
 (3, 1);
+
+INSERT INTO mapLocations (latitude, longitude, name, crypto)
+VALUES
+(37.78825, -122.4324, "Twilio", '["cryptokitties","ethereum","bitcoin","litecoin"]'),
+(37.78814, -122.39258 , "Mcdonalds", '["cryptokitties","ethereum","bitcoin","litecoin"]'),
+(37.80228, -122.405853 , "A Nice Place", '["cryptokitties","ethereum","bitcoin","litecoin"]');

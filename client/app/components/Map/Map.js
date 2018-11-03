@@ -1,91 +1,51 @@
-// import React from "react";
-// import { MapView, Marker } from "expo";
-// import { AppRegistry } from "react-native";
-
-// const App = () => {
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       onRegionChange: "",
-//       region: {
-//         latitude: 37.78825,
-//         longitude: -122.4324
-//       },
-//       markers: [
-//         {
-//           latlng: {
-//             latitude: 37.78825,
-//             longitude: -122.4324
-//           },
-//           title: "A title works",
-//           description: "I really hope this works"
-//         }
-//       ]
-//     }
-//   }
-
-//   render() {
-//     return (
-//       <MapView
-//         style={{ flex: 1 }}
-//         initialRegion={{
-//           latitude: 37.78825,
-//           longitude: -122.4324,
-//           latitudeDelta: 0.0922,
-//           longitudeDelta: 0.0421
-//         }}
-//       >
-//         <MapView
-//           region={this.state.region}
-//           onRegionChange={this.onRegionChange}
-//         >
-//           {this.state.markers.map(marker => (
-//             <Marker
-//               coordinate={marker.latlng}
-//               title={marker.title}
-//               description={marker.description}
-//             />
-//           ))}
-//         </MapView>
-//       </MapView>
-//     );
-//   }
-// }
-
-// export default App;
-
-// AppRegistry.registerComponent('albums', () => App);
-
-// import React from "react";
-// import { MapView, Marker } from "expo";
-// import { AppRegistry } from "react-native";
+// import * as React from "react";
+// import { MapView } from "expo";
 //
-// export default class App extends React.Component {
+// export default class Map extends React.Component {
 //   constructor(props) {
 //     super(props);
+//
 //     this.state = {
-//       onRegionChange: "",
-//       region: {
-//         latitude: 37.78825,
-//         longitude: -122.4324
-//       },
-//       markers: [
-//         {
-//           latlng: {
-//             latitude: 37.78825,
-//             longitude: -122.4324
-//           },
-//           title: "A title works",
-//           description: "I really hope this works"
-//         }
-//       ]
+//       latitude: 0,
+//       longitude: 0,
+//       name: "",
+//       crypto: ""
 //     };
 //   }
 //
+//   // componentWillMount() {
+//   //   this.setState({
+//   //     latitude: this.props.latitude,
+//   //     longitude: this.props.longitude,
+//   //     name: this.props.crypto,
+//   //     crypto: this.props.name
+//   //   });
+//   // }
+//
 //   render() {
+//     let mapMarker = "";
+//     console.log(this.props.latitude);
+//     if (this.props.latitude != 0 && this.props.latitude != undefined) {
+//       console.log(this.props.latitude);
+//       mapMarker = (
+//         <MapView.Marker
+//           onPress={event => this.handleMarkerPress(event)}
+//           coordinate={{
+//             latitude: this.props.latitude,
+//             longitude: this.props.longitude
+//           }}
+//           title={this.state.crypto}
+//           description={this.state.name}
+//         />
+//       );
+//     }
+//
 //     return (
+//       // In the Mapview we will get the use the users location to
+//       // get the initialRegion or figure out another way to get
+//       // general location
 //       <MapView
-//         style={{ flex: 1 }}
+//         style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
 //         initialRegion={{
 //           latitude: 37.78825,
 //           longitude: -122.4324,
@@ -93,31 +53,24 @@
 //           longitudeDelta: 0.0421
 //         }}
 //       >
-//         <MapView
-//           region={this.state.region}
-//           onRegionChange={this.onRegionChange}
-//         >
-//           {this.state.markers.map(marker => (
-//             <Marker
-//               coordinate={marker.latlng}
-//               title={marker.title}
-//               description={marker.description}
-//             />
-//           ))}
-//         </MapView>
+//         {mapMarker}
 //       </MapView>
 //     );
 //   }
 // }
 
-import * as React from 'react';
-import { MapView } from 'expo';
+import * as React from "react";
+import { MapView, TextInput } from "expo";
+import { coordinate } from "./coordinates";
 
 export default class Map extends React.Component {
   render() {
     return (
+      // In the Mapview we will get the use the users location to
+      // get the initialRegion or figure out another way to get
+      // general location
       <MapView
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
@@ -125,12 +78,16 @@ export default class Map extends React.Component {
           longitudeDelta: 0.0421
         }}
       >
-        <MapView.Marker
-          coordinate={{
-            latitude: 37.78825,
-            longitude: -122.4324
-          }}
-        />
+        {coordinate.map(item => (
+          <MapView.Marker
+            coordinate={{
+              latitude: item.lat,
+              longitude: item.lng
+            }}
+            title={item.name}
+            description={item.crypto}
+          />
+        ))}
       </MapView>
     );
   }
