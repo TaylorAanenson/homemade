@@ -39,6 +39,7 @@ router.use(function(req, res, next) {
 
 //Create GET post routes to get all post
 router.get("/posts", function(req, res) {
+  console.log("HITTING POST ROUTE");
   connection.query(
     "SELECT * FROM posts, locations, users WHERE posts.location_id = locations.id and posts.user_id = users.id ORDER BY posts.id DESC",
     function(err, results, body) {

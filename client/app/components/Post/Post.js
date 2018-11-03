@@ -30,7 +30,7 @@ export default class App extends React.Component {
   }
 
   searchPost = () => {
-    fetch("http://9debcb53.ngrok.io/posts")
+    fetch("http://localhost:3000/posts")
       .then(res => res.json())
       .then(
         resJSON => {
@@ -50,7 +50,7 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    return fetch("http://9debcb53.ngrok.io/posts")
+    return fetch("http://localhost:3000/posts")
       .then(res => res.json())
       .then(resJSON => {
         this.setState(
