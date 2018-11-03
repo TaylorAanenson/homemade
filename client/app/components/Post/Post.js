@@ -45,9 +45,10 @@ export default class Post extends React.Component {
       .catch(err => console.log(err));
   };
 
-  viewPost = () => {
-    Alert.alert("What are you eating?");
-  };
+
+  viewPost = (post_id) => {
+    this.props.navigation.navigate('PostInfo', { post_id });
+  }
 
   buyPost = () => {
     Alert.alert("buy me");
@@ -134,11 +135,8 @@ export default class Post extends React.Component {
         <ScrollView>
           {this.state.data.map(postInfo => {
             return (
-              <TouchableOpacity
-                style={styles.postStyle}
-                dataId={postInfo.id}
-                onPress={this.viewPost}
-              >
+
+              <TouchableOpacity style={styles.postStyle} key={postInfo.post_id} onPress={() => this.viewPost(postInfo.post_id)}>
                 <Image
                   style={{ width: 100, height: 100 }}
                   source={{ url: "https://via.placeholder.com/50x50" }}
@@ -163,6 +161,25 @@ export default class Post extends React.Component {
             );
           })}
         </ScrollView>
+        <TouchableOpacity
+          style={{
+          borderWidth:1,
+          borderColor: '#f4511e',
+          alignItems:'center',
+          justifyContent:'center',
+          width:70,
+          height:70,
+          position: 'absolute',
+          bottom: 0,
+          marginLeft: 10,
+          marginBottom: 10,
+          backgroundColor:'#f4511e',
+          borderRadius:100,
+          }}
+          onPress={() => this.props.navigation.navigate("AddPost")}
+         >
+          <Icon name="plus"  size={30} color="#fff" />
+        </TouchableOpacity>
       </View>
     );
   }

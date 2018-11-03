@@ -7,7 +7,10 @@ import {
   AsyncStorage,
   Alert,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  ImageBackground,
+  StackActions,
+  NavigationActions
 } from 'react-native';
 import { _verifier } from '../../../src/AuthentificationService';
 // import _tokenVerifier from '../TokenVerifier/TokenVerifier';
@@ -24,7 +27,8 @@ export default class ProfileScreen extends React.Component {
       firstname: '',
       lastname: '',
       create_date: '',
-      isLoggedIn: false
+      isLoggedIn: false,
+      isPassingProps: false
     };
   }
 
@@ -40,7 +44,7 @@ export default class ProfileScreen extends React.Component {
           console.log('STRING RETURN!!' + tokenStr);
           console.log('PARSED RETURN!!' + userData);
           if (userData.name === 'TokenExpiredError') {
-            Alert.alert('Session has expired');
+            console.log('Session has expired');
           } else {
             this.setState({
               isLoggedIn: userData.isLoggedIn,
@@ -63,120 +67,235 @@ export default class ProfileScreen extends React.Component {
     this.checkToken();
   }
 
+  componentWillReceiveProps(){
+	  this.setState({
+		  isLoggedIn: true,
+		  isPassingProps: true
+	  })
+  }
+
   removeData = async () => {
     try {
-      await AsyncStorage.removeItem('token');
+	  await AsyncStorage.removeItem('token');
+	  this.setState({
+		  isLoggedIn: false
+	  })
     } catch (error) {
       // Error saving data
     }
   };
 
   render() {
-    const isLoggedIn = this.state.isLoggedIn;
+	const isLoggedIn = this.state.isLoggedIn;
     console.log(this.state);
-    let { navigation } = this.props;
-    let id = navigation.getParam('_id', 'n/a');
-    let username = navigation.getParam('username', 'n/a');
-    let email = navigation.getParam('email', 'n/a');
-    let firstname = navigation.getParam('firstname', 'n/a');
-    let lastname = navigation.getParam('lastname', 'n/a');
-    let create_date = navigation.getParam('create_date', 'n/a');
-    // let isLoggedIn = navigation.getParam("isLoggedIn", "n/a");
+    const { navigation } = this.props;
+    // const id = navigation.getParam('_id', 'n/a');
+    const username = navigation.getParam('username', 'n/a');
+    // const email = navigation.getParam('email', 'n/a');
+    // const firstname = navigation.getParam('firstname', 'n/a');
+    // const lastname = navigation.getParam('lastname', 'n/a');
+    // const create_date = navigation.getParam('create_date', 'n/a');
+	// const status = navigation.getParam('isLoggedIn', 'n/a');
+
     return (
       <View style={styles.container}>
         {isLoggedIn ? (
-          <View style={styles.container}>
-            <Text style={{ marginTop: 5, fontSize: 30 }}>
-              Welcome Back {this.state.username}!
-            </Text>
-            <Text style={{ marginTop: 5, fontSize: 20 }}>
-              Ready for a delicious homemade meal?
-            </Text>
-            <Text style={{ marginTop: 5, fontSize: 20 }}>
-              Would you like to{' '}
-              <Button
-                title="Browse"
-                onPress={() => this.props.navigation.navigate('Browse')}
-              />
-              ?
-            </Text>
-            <Text style={{ marginTop: 5, fontSize: 20 }}>
-              Or{' '}
-              <Button
-                style={{ marginTop: 0 }}
-                title="Search"
-                onPress={() => this.props.navigation.navigate('Search')}
-              />
-              ?
-            </Text>
-            <ScrollView style={{ flex: 1 }}>
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Food" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-              <Button title="Beer" />
-            </ScrollView>
-            <Button
-              title="Logout"
-              onPress={this.removeData}
-              // onPress={() => this.props.navigation.navigate("Login")}
-            />
+          <View style={{ flex: 1, alignSelf: 'stretch' }}>
+            <ImageBackground
+              style={{
+                flex: 1,
+                width: undefined,
+                height: undefined
+              }}
+              source={require('./assets/images/plate.jpg')}
+            >
+              <View style={styles.container}>
+                <View
+                  style={{
+                    margin: 10,
+                    padding: 2,
+                    backgroundColor: 'rgba(244, 81, 30, .8)',
+                    alignItems: 'center',
+                    borderRadius: 10
+                  }}
+                >
+                  {this.state.isPassingProps === true && <Text
+                    style={{
+                      padding: 5,
+                      marginTop: 5,
+                      fontSize: 30
+                    }}
+                  >
+                    Welcome Back {username}!
+				  </Text>}
+				  {this.state.isPassingProps === false && <Text
+                    style={{
+                      padding: 5,
+                      marginTop: 5,
+                      fontSize: 30
+                    }}
+                  >
+                    Welcome Back {this.state.username}!
+                  </Text>}
+                  <Text
+                    style={{
+                      padding: 5,
+                      marginTop: 5,
+                      fontSize: 20
+                    }}
+                  >
+                    Ready for a delicious homemade meal?
+                  </Text>
+                  <View
+                    style={{
+                      marginTop: 5,
+                      flexDirection: 'row'
+                    }}
+                  >
+                    <Text
+                      style={{
+                        marginTop: 6,
+                        fontSize: 20
+                      }}
+                    >
+                      Would you like to
+                    </Text>
+                    <Button
+                      color="white"
+                      title="Browse?"
+                      onPress={() => this.props.navigation.navigate('Browse')}
+                    />
+                    <Text
+                      style={{
+                        marginTop: 6,
+                        fontSize: 20
+                      }}
+                    >
+                      Or
+                    </Text>
+                    <Button
+                      color="white"
+                      title="Search?"
+                      onPress={() => this.props.navigation.navigate('Search')}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      marginTop: 5,
+                      flexDirection: 'row'
+                    }}
+                  />{' '}
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 30
+                    }}
+                  >
+                    Check out your previous orders for inspiration!
+                  </Text>
+                </View>
+                <ScrollView style={{ flex: 1, margin: 5 }}>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Food</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                  <Text style={styles.prevOrder}>Beer</Text>
+                </ScrollView>
+                <View
+                  style={{
+                    margin: 5,
+                    flexDirection: 'row',
+                    backgroundColor: 'rgba(244, 81, 30, .8)',
+                    alignItems: 'center',
+                    borderRadius: 10
+                  }}
+                >
+                  <Text
+                    style={{
+                      //   marginTop: 5,
+                      marginLeft: 7,
+                      fontSize: 20
+                    }}
+                  >
+                    Or
+                  </Text>
+                  <Button
+                    title="Logout"
+                    onPress={this.removeData}
+                    // onPress={() =>
+                    //   this.props.navigation.dispatch(resetAction)
+                    // }
+                  />
+                </View>
+              </View>
+            </ImageBackground>
           </View>
         ) : (
-          <View style={styles.container}>
-            <Text style={styles.selectionText}>Ready to eat?</Text>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => this.props.navigation.navigate('Login')}
+          <View style={{ flex: 1, alignSelf: 'stretch' }}>
+            <ImageBackground
+              style={{
+                flex: 1,
+                width: undefined,
+                height: undefined
+              }}
+              source={require('./assets/images/homemade.jpg')}
             >
-              <Text style={styles.buttonText}>Login!</Text>
-            </TouchableOpacity>
-            <Text style={styles.selectionText}>New Here?</Text>
-            <TouchableOpacity
-              style={styles.buttons}
-              onPress={() => this.props.navigation.navigate('Register')}
-            >
-              <Text style={styles.buttonText}>Get Registered!</Text>
-            </TouchableOpacity>
+              <View style={styles.container}>
+                <Text style={styles.selectionText}>Ready to eat?</Text>
+                <TouchableOpacity
+                  style={styles.buttons}
+                  onPress={() => this.props.navigation.navigate('Login')}
+                >
+                  <Text style={styles.buttonText}>Login!</Text>
+                </TouchableOpacity>
+                <Text style={styles.selectionText}>New Here?</Text>
+                <TouchableOpacity
+                  style={styles.buttons}
+                  onPress={() => this.props.navigation.navigate('Register')}
+                >
+                  <Text style={styles.buttonText}>Get Registered!</Text>
+                </TouchableOpacity>
+              </View>
+            </ImageBackground>
           </View>
         )}
       </View>
@@ -192,8 +311,13 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   selectionText: {
-	fontSize: 35, 
-	margin: 5
+    backgroundColor: '#f4511e',
+    borderWidth: 5,
+    borderColor: '#f4511e',
+    borderStyle: 'solid',
+    borderRadius: 5,
+    fontSize: 35,
+    margin: 5
   },
   buttons: {
     margin: 5,
@@ -209,5 +333,15 @@ const styles = StyleSheet.create({
     color: '#f4511e',
     fontSize: 20,
     textAlign: 'center'
+  },
+  prevOrder: {
+    width: 350,
+    fontSize: 25,
+    color: '#f4511e',
+    backgroundColor: 'black',
+    borderRadius: 10,
+    padding: 5,
+    marginTop: 5,
+    justifyContent: 'flex-start'
   }
 });

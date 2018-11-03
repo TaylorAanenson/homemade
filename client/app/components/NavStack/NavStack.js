@@ -6,6 +6,8 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import BrowseScreen from "../BrowseScreen/BrowseScreen";
 import Post from "../Post/Post";
+import PostInfo from "../Post/PostInfo";
+import AddPost from "../Post/AddPost";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
@@ -36,14 +38,20 @@ const BrowseStack = createStackNavigator(
 );
 
 const PostStack = createStackNavigator(
-  {
-    Search: {
-      screen: Post
-    }
-  },
-  {
-    navigationOptions: header
-  }
+	{
+		Search: {
+			screen: Post
+		},
+		PostInfo: {
+			screen: PostInfo
+		},
+		AddPost: {
+			screen: AddPost
+		}
+	},
+	{
+		navigationOptions: header
+	}
 );
 
 const ProfileStack = createStackNavigator(

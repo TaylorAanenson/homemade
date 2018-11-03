@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  ImageBackground
 } from 'react-native';
 import { _register, _login } from '../../../src/AuthentificationService';
 
@@ -37,6 +38,7 @@ export default class App extends React.Component {
       this.setState(
         {
           registered: res.bool,
+          isPassingProps: true,
           isLoggedIn: true,
           // id: res.result[0].id,
           username: res.username,
@@ -53,6 +55,7 @@ export default class App extends React.Component {
           //   }
           // }
 
+          AsyncStorage.removeItem('token');
           AsyncStorage.setItem('token', res.token);
 
           // here is the code to navigate to whatever page you want
@@ -60,6 +63,7 @@ export default class App extends React.Component {
           // currently it's just telling you whether or not
           // you have logged in based on your inputs
           this.props.navigation.navigate('Profile', {
+            isLoggedIn: true,
             // _id: this.state.id,
             username: this.state.username,
             email: this.state.email
@@ -72,43 +76,61 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image
-          source={require('./assets/images/homemade-logo.png')}
-          style={styles.logo}
-        />
-        <Text
+      <View style={{ flex: 1, alignSelf: 'stretch' }}>
+        <ImageBackground
           style={{
-            fontSize: 40,
-            margin: 2,
-            color: 'orange'
+            flex: 1,
+            width: undefined,
+            height: undefined
           }}
+          source={require('./assets/images/mix.jpg')}
         >
-          HomeMade
-        </Text>
-        <TextInput
-          style={styles.signin}
-          placeholder="Username"
-          onChangeText={username => this.setState({ username })}
-        />
-        <TextInput
-          style={styles.signin}
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={password => this.setState({ password })}
-        />
-        <TextInput
-          style={styles.signin}
-          placeholder="Email"
-          onChangeText={email => this.setState({ email })}
-        />
-        <TouchableOpacity onPress={this.checkRegister}>
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
-        {this.state.registered == true && <Text>You Have Registered!</Text>}
-        {this.state.registered == false && (
-          <Text>You have not Registered!</Text>
-        )}
+          <View style={styles.container}>
+            <Image
+              source={require('./assets/images/homemade-logo.png')}
+              style={styles.logo}
+            />
+            <Text
+              style={{
+                fontSize: 40,
+                margin: 2,
+                color: 'orange'
+              }}
+            >
+              HomeMade
+            </Text>
+            <TextInput
+              style={styles.signin}
+              placeholder="Username"
+              onChangeText={username => this.setState({ username })}
+            />
+            <TextInput
+              style={styles.signin}
+              placeholder="Password"
+              secureTextEntry={true}
+              onChangeText={password => this.setState({ password })}
+            />
+            <TextInput
+              style={styles.signin}
+              placeholder="Email"
+              onChangeText={email => this.setState({ email })}
+            />
+            <TouchableOpacity
+              onPress={this.checkRegister}
+              style={{
+                margin: 5,
+                borderRadius: 5,
+                backgroundColor: '#ffffff'
+              }}
+            >
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+            {this.state.registered == true && <Text>You Have Registered!</Text>}
+            {this.state.registered == false && (
+              <Text>You have not Registered!</Text>
+            )}
+          </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -117,7 +139,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'stretch'
@@ -134,9 +156,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: 'black',
     padding: 10,
-	margin: 2
+    margin: 2
   },
   buttonText: {
-	  margin: 5
+    margin: 5
   }
 });
