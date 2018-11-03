@@ -23,8 +23,8 @@ export default class BrowseScreen extends React.Component {
     super(props);
     this.state = {
       userSearch: "",
-      latitude: "",
-      longitude: "",
+      latitude: 0,
+      longitude: 0,
       name: "",
       crypto: ""
     };
@@ -54,7 +54,15 @@ export default class BrowseScreen extends React.Component {
     //   // });
     // });
     return _getMapLocations(searchCrypto).then(res => {
+      console.log("Line57");
       console.log(res);
+      console.log("Line59");
+      this.setState({
+        latitude: res[0].latitude,
+        longitude: res[0].longitude,
+        name: res[0].name,
+        crypto: res[0].crypto
+      });
     });
   };
 
@@ -118,7 +126,13 @@ export default class BrowseScreen extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 1 }}>
-          <Map style={StyleSheet.absoluteFillObject} />
+          <Map
+            style={StyleSheet.absoluteFillObject}
+            latitude={this.state.latitude}
+            longitude={this.longitude}
+            name={this.name}
+            crypto={this.crypto}
+          />
         </View>
       </View>
     );

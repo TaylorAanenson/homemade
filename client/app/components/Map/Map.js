@@ -1,9 +1,44 @@
 import * as React from "react";
-import { MapView, TextInput } from "expo";
-import { coordinate } from "./coordinates";
+import { MapView } from "expo";
 
 export default class Map extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      latitude: 0,
+      longitude: 0,
+      name: "",
+      crypto: ""
+    };
+  }
+
+  // componentWillMount() {
+  //   this.setState({
+  //     latitude: this.props.latitude,
+  //     longitude: this.props.longitude,
+  //     name: this.props.crypto,
+  //     crypto: this.props.name
+  //   });
+  // }
+
   render() {
+    let mapMarker = "";
+    if (this.props.latitude != 0 && this.props.latitude != undefined) {
+      console.log(this.props.latitude);
+      mapMarker = (
+        <MapView.Marker
+          onPress={event => this.handleMarkerPress(event)}
+          coordinate={{
+            latitude: this.props.latitude,
+            longitude: this.props.longitude
+          }}
+          title={this.state.crypto}
+          description={this.state.name}
+        />
+      );
+    }
+
     return (
       // In the Mapview we will get the use the users location to
       // get the initialRegion or figure out another way to get
@@ -17,16 +52,7 @@ export default class Map extends React.Component {
           longitudeDelta: 0.0421
         }}
       >
-        {coordinate.map(item => (
-          <MapView.Marker
-            coordinate={{
-              latitude: item.lat,
-              longitude: item.lng
-            }}
-            title={"title"}
-            description={"description"}
-          />
-        ))}
+        {mapMarker}
       </MapView>
     );
   }
