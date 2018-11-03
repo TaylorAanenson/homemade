@@ -13,9 +13,9 @@ import {
   AsyncStorage
 } from "react-native";
 import { Button } from "react-native-elements";
-import { _verifier } from '../../../src/AuthentificationService';
+import { _verifier } from "../../../src/AuthentificationService";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { _loadPosts } from './PostService';
+import { _loadPosts } from "./PostService";
 
 export default class Post extends React.Component {
   constructor(props) {
@@ -25,66 +25,47 @@ export default class Post extends React.Component {
       isLoading: true,
       data: {},
       search: "",
-      post: ''
+      post: ""
     };
   }
 
   searchPost = () => {
-<<<<<<< HEAD
-    fetch("http://localhost:3000/posts")
-      .then(res => res.json())
+    _loadPosts
       .then(
         resJSON => {
-          // alert((resJSON[4].information).includes(this.state.search));
-          // alert(resJSON[0].title);
           let searchData = resJSON.filter(postData => {
             return postData.information.includes(this.state.search);
           });
           this.setState({ data: searchData });
-          // console.log(this.state.data[0]);
         },
         function() {
           this.setState({ search: "" });
         }
       )
       .catch(err => console.log(err));
-=======
-    _loadPosts.then(
-      resJSON => {
-        let searchData = resJSON.filter(postData => {
-          return postData.information.includes(this.state.search);
-        });
-        this.setState({ data: searchData });
-      },
-      function() {
-        this.setState({ search: "" });
-      }
-    )
-    .catch(err => console.log(err));
->>>>>>> a4e24b93b037e0bbff2796e536feab1d55b78e9c
   };
 
   viewPost = () => {
-    Alert.alert('What are you eating?');
-  }
+    Alert.alert("What are you eating?");
+  };
 
   buyPost = () => {
-    Alert.alert('buy me')
-  }
-  
+    Alert.alert("buy me");
+  };
+
   checkToken = async () => {
     try {
-      const value = await AsyncStorage.getItem('token');
+      const value = await AsyncStorage.getItem("token");
       if (value !== null) {
         // let token = JSON.stringify(value);
-        console.log('TOKEN!!' + value);
+        console.log("TOKEN!!" + value);
         return _verifier(value).then(res => {
           let tokenStr = JSON.stringify(res.verifiedToken);
           let userData = JSON.parse(tokenStr);
-          console.log('STRING RETURN!!' + tokenStr);
-          console.log('PARSED RETURN!!' + userData);
-          if (userData.name === 'TokenExpiredError') {
-            Alert.alert('Session has expired');
+          console.log("STRING RETURN!!" + tokenStr);
+          console.log("PARSED RETURN!!" + userData);
+          if (userData.name === "TokenExpiredError") {
+            Alert.alert("Session has expired");
           } else {
             this.setState({
               isLoggedIn: userData.isLoggedIn,
@@ -99,7 +80,7 @@ export default class Post extends React.Component {
         });
       }
     } catch (error) {
-      console.log('NO TOKEN!!!' + error);
+      console.log("NO TOKEN!!!" + error);
     }
   };
 
@@ -108,9 +89,7 @@ export default class Post extends React.Component {
   }
 
   componentDidMount() {
-<<<<<<< HEAD
-    return fetch("http://localhost:3000/posts")
-      .then(res => res.json())
+    return _loadPosts()
       .then(resJSON => {
         this.setState(
           {
@@ -123,20 +102,6 @@ export default class Post extends React.Component {
       .catch(err => {
         console.error(err);
       });
-=======
-    return _loadPosts().then(resJSON => {
-      this.setState(
-        {
-          isLoading: false,
-          data: resJSON
-        },
-        function() {}
-      );
-    })
-    .catch(err => {
-      console.error(err);
-    });
->>>>>>> a4e24b93b037e0bbff2796e536feab1d55b78e9c
   }
 
   render() {
@@ -169,7 +134,11 @@ export default class Post extends React.Component {
         <ScrollView>
           {this.state.data.map(postInfo => {
             return (
-              <TouchableOpacity style={styles.postStyle} dataId={postInfo.id} onPress={this.viewPost}>
+              <TouchableOpacity
+                style={styles.postStyle}
+                dataId={postInfo.id}
+                onPress={this.viewPost}
+              >
                 <Image
                   style={{ width: 100, height: 100 }}
                   source={{ url: "https://via.placeholder.com/50x50" }}
@@ -177,8 +146,17 @@ export default class Post extends React.Component {
                 <View style={{ marginLeft: 20, flex: 1 }}>
                   <Text style={styles.textStyle}>{postInfo.title}</Text>
                   <Text>{postInfo.information}</Text>
-                  <TouchableOpacity style={{alignContent: 'flex-end', marginLeft: 120, marginTop: 10}} onPress={this.buyPost}>
-                    <Text style={styles.buyButtonStyle}>{"$" + postInfo.price}</Text>
+                  <TouchableOpacity
+                    style={{
+                      alignContent: "flex-end",
+                      marginLeft: 120,
+                      marginTop: 10
+                    }}
+                    onPress={this.buyPost}
+                  >
+                    <Text style={styles.buyButtonStyle}>
+                      {"$" + postInfo.price}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </TouchableOpacity>
@@ -225,16 +203,16 @@ const styles = StyleSheet.create({
     width: 50,
     height: 45,
     alignContent: "center",
-    borderRadius: 5,
+    borderRadius: 5
   },
   buyButtonStyle: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     borderRadius: 10,
-    backgroundColor: '#f4511e',
+    backgroundColor: "#f4511e",
     padding: 10,
     flex: 1,
-    textAlign: 'center'
+    textAlign: "center"
   }
 });
