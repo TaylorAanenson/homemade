@@ -37,7 +37,7 @@ const BrowseStack = createStackNavigator(
 
 const PostStack = createStackNavigator(
 	{
-		Post: {
+		Search: {
 			screen: Post
 		}
 	},
