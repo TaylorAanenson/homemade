@@ -15,12 +15,19 @@ import {
 } from "react-native";
 import Map from "../Map/Map";
 import { _verifier } from "../../../src/AuthentificationService";
+import { _getMapLocations } from "../../../src/mapLocations";
 // import LogoTitle from "../ModalStack/LogoTitle";
 
 export default class BrowseScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      userSearch: "",
+      latitude: "",
+      longitude: "",
+      name: "",
+      crypto: ""
+    };
   }
 
   fetcher = () => {
@@ -37,14 +44,19 @@ export default class BrowseScreen extends React.Component {
       });
   };
 
-  handleSubmit() {
-    this.fetcher().then(res => {
+  handleSubmit = event => {
+    console.log(this.state.userSearch);
+    let searchCrypto = this.state.userSearch;
+    // this.fetcher().then(res => {
+    //   console.log(res);
+    //   // this.props.navigator.push({
+    //   // 	passProps: { userInfo: res }
+    //   // });
+    // });
+    return _getMapLocations(searchCrypto).then(res => {
       console.log(res);
-      // this.props.navigator.push({
-      // 	passProps: { userInfo: res }
-      // });
     });
-  }
+  };
 
   checkToken = async () => {
     try {
@@ -82,67 +94,9 @@ export default class BrowseScreen extends React.Component {
     this.checkToken();
   }
 
-  // componentDidUpdate() {
-  // 	this.handleSubmit();
-  // }
-
   static navigationOptions = ({ navigation }) => {
-    // const params = navigation.state.params || {};
-
-    return {
-      // headerTitle: <LogoTitle />,
-      // title: 'homemade'
-      // headerLeft: (
-      // 	<Button
-      // 		onPress={() => navigation.navigate("MyModal")}
-      // 		// onPress={() => Alert.alert("this is a button!")}
-      // 		title="search"
-      // 		// title="dropdown"
-      // 		color="#fff"
-      // 	/>
-      // ),
-      // headerRight: (
-      // 	<Button
-      // 		onPress={() =>
-      // 			navigation.navigate("Cart", {
-      // 				_id: 1,
-      // 				name: "Taylor",
-      // 				age: 25,
-      // 				sex: "Male",
-      // 				foodPreference: "Vegan"
-      // 			})
-      // 		}
-      // 		// onPress={() => Alert.alert("this is a button!")}
-      // 		title="cart"
-      // 		// title="+1"
-      // 		color="#fff"
-      // 	/>
-      // )
-    };
+    return {};
   };
-
-  // componentDidMount() {
-  // 	this.props.navigation.setParams({ increaseCount: this._increaseCount });
-  // }
-
-  // state = {
-  // 	count: 0
-  // };
-
-  // constructor(props) {
-  // 	super(props);
-  // 	this.state = { count: 0 };
-  // }
-
-  // _increaseCount = () => {
-  // 	this.setState({ count: this.state.count + 1 });
-  // 	console.log(this.state.count);
-  // };
-
-  // _updateCount = () => {
-  // 	this.setState({ count: this.state.count });
-  // 	console.log(this.state.count);
-  // };
 
   render() {
     return (
@@ -154,8 +108,14 @@ export default class BrowseScreen extends React.Component {
             height: 40
           }}
         >
-          <TextInput style={{ padding: 10 }} placeholder="enter search" />
-          <Button title="search" onPress={this.handleSubmit} />
+          <TextInput
+            style={{ padding: 10 }}
+            placeholder="enter search"
+            onChangeText={userSearch => this.setState({ userSearch })}
+          />
+          <TouchableOpacity onPress={this.handleSubmit}>
+            <Text>Seach</Text>
+          </TouchableOpacity>
         </View>
         <View style={{ flex: 1 }}>
           <Map style={StyleSheet.absoluteFillObject} />
@@ -173,56 +133,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  // nav: {
-  // 	flex: 0.1,
-  // 	flexDirection: "row",
-  // 	backgroundColor: "#ffa500",
-  // 	// alignItems: "center",
-  // 	justifyContent: "space-between"
-  // 	// height: 200
-  // },
-  // dropdown: {
-  // 	// flex: 1,
-  // 	// height: undefined,
-  // 	// width: undefined,
-  // 	// resizeMode: 'contain',
-
-  // 	// flexDirection: 'column',
-  // 	// alignSelf: 'center',
-  // 	// position: 'absolute',
-  // 	// justifyContent: "flex-start",
-  // 	height: 40,
-  // 	width: 40,
-  // 	// borderRadius: 50,
-  // 	marginTop: 20,
-  // 	marginLeft: 10
-  // },
-  // header: {
-  // 	// flex: 1,
-  // 	fontSize: 35,
-  // 	marginTop: 15,
-  // 	marginLeft: 15,
-  // 	// marginRight: 40,
-  // 	// alignItems: "center",
-  // 	// alignSelf: "center",
-  // 	// justifyContent: "center"
-  // },
-  // cart: {
-  // 	// flex: 0.3,
-  // 	// height: undefined,
-  // 	// width: undefined,
-  // 	// resizeMode: 'contain',
-
-  // 	// flexDirection: "column",
-  // 	// alignSelf: "center",
-  // 	// position: 'absolute',
-  // 	// justifyContent: "flex-end",
-  // 	height: 50,
-  // 	width: 50,
-  // 	// borderRadius: 50,
-  // 	marginTop: 15,
-  // 	marginRight: 5
-  // },
   search: {
     flex: 0.1,
     flexDirection: "row",

@@ -14,6 +14,6 @@ export const _getMapLocations = crypto => {
     },
     // In the stringify argument, we will put the search information
     // namely the crypto currency the user wants to search for
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ crypto })
   }).then(res => res.json());
 };
