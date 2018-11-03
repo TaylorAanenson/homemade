@@ -23,5 +23,5 @@ export const _addPosts = (title, location_id, user_id, price, information, ingre
 }
 
 export const _loadOnePosts = (post_id) => {
-	return fetch(routeURL + "/" + post_id).then(res => res.json())
+	return fetch(routeURL + "/1").then(res => res.json());
 }

@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   descriptionStyle: {
     height: 200,
     borderWidth: 1,
-    borderColor: 'f4511e',
+    borderColor: '#f4511e',
     backgroundColor: 'white',
   },
   buttonStyle: {

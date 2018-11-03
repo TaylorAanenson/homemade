@@ -62,10 +62,7 @@ export default class PostInfo extends React.Component {
   }
 
   componentDidMount() {
-    let { navigation } = this.props;
-    let post_id = navigation.getParam('post_id', 'n/a');
-    console.log(post_id);
-    return _loadOnePosts(post_id).then(resJSON => {
+    return _loadOnePosts(1).then(resJSON => {
       this.setState(
         {
           isLoading: false,
@@ -80,6 +77,10 @@ export default class PostInfo extends React.Component {
   }
 
   render() {
+    const { navigation } = this.props;
+    console.log(navigation);
+    // let post_id = navigation.getParam('post_id', 'n/a');
+
     if(this.state.isLoading){
       return (
         <View>
