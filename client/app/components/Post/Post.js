@@ -15,8 +15,9 @@ import { Button } from "react-native-elements";
 import { MapView } from "expo";
 import { createStackNavigator } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { _loadPosts } from './PostService';
 
-export default class App extends React.Component {
+export default class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,27 +30,22 @@ export default class App extends React.Component {
   }
 
   searchPost = () => {
-    fetch("http://localhost:3000/posts")
-      .then(res => res.json())
-      .then(
-        resJSON => {
-          // alert((resJSON[4].information).includes(this.state.search));
-          // alert(resJSON[0].title);
-          let searchData = resJSON.filter(postData => {
-            return postData.information.includes(this.state.search);
-          });
-          this.setState({ data: searchData });
-          // console.log(this.state.data[0]);
-        },
-        function() {
-          this.setState({ search: "" });
-        }
-      )
-      .catch(err => console.log(err));
+    _loadPosts.then(
+      resJSON => {
+        let searchData = resJSON.filter(postData => {
+          return postData.information.includes(this.state.search);
+        });
+        this.setState({ data: searchData });
+      },
+      function() {
+        this.setState({ search: "" });
+      }
+    )
+    .catch(err => console.log(err));
   };
 
   viewPost = () => {
-    Alert.alert('hi');
+    Alert.alert('What are you eating?');
   }
 
   buyPost = () => {
@@ -57,20 +53,18 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    return fetch("http://localhost:3000/posts")
-      .then(res => res.json())
-      .then(resJSON => {
-        this.setState(
-          {
-            isLoading: false,
-            data: resJSON
-          },
-          function() {}
-        );
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    return _loadPosts().then(resJSON => {
+      this.setState(
+        {
+          isLoading: false,
+          data: resJSON
+        },
+        function() {}
+      );
+    })
+    .catch(err => {
+      console.error(err);
+    });
   }
 
   render() {
@@ -127,7 +121,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "orange",
+    backgroundColor: "#f4511e",
     alignSelf: "stretch",
     flexDirection: "column"
   },

@@ -18,6 +18,7 @@ import withNavigationFocus from "../ModalStack/withNavigationFocus";
 import NavigationEvents from "../ModalStack/NavigationEvents";
 import LogoTitle from "../ModalStack/LogoTitle";
 // import ModalStack from '../ModalStack/ModalStack';
+import Post from "../Post/Post"
 
 const BrowseStack = createStackNavigator(
 	{
@@ -50,7 +51,7 @@ const BrowseStack = createStackNavigator(
 const SearchStack = createStackNavigator(
 	{
 		Search: {
-			screen: SearchScreen
+			screen: Post
 		}
 	},
 	{
