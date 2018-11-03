@@ -140,7 +140,7 @@ export default class Post extends React.Component {
                 <View style={{ marginLeft: 20, flex: 1 }}>
                   <Text style={styles.textStyle}>{postInfo.title}</Text>
                   <Text>{postInfo.information}</Text>
-                  <TouchableOpacity style={{alignContent: 'right', marginLeft: 120, marginTop: 10}} onPress={this.buyPost}>
+                  <TouchableOpacity style={{alignContent: 'flex-end', marginLeft: 120, marginTop: 10}} onPress={this.buyPost}>
                     <Text style={styles.buyButtonStyle}>{"$" + postInfo.price}</Text>
                   </TouchableOpacity>
                 </View>
@@ -173,31 +173,29 @@ const styles = StyleSheet.create({
   },
   searchStyle: {
     backgroundColor: "#fff",
-    marginTop: 30,
     padding: 8,
-    borderBottomWidth: 5,
+    marginBottom: 5,
     marginLeft: 5,
-    borderColor: "orange",
     width: 300,
     height: 45
   },
   searchBarStyle: {
-    flexDirection: "row"
+    flexDirection: "row",
+    marginTop: 5
   },
   searchButtonStyle: {
-    backgroundColor: "tomato",
+    backgroundColor: "orange",
     width: 50,
     height: 45,
     alignContent: "center",
     borderRadius: 5,
-    marginTop: 25
   },
   buyButtonStyle: {
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
     borderRadius: 10,
-    backgroundColor: 'orange',
+    backgroundColor: '#f4511e',
     padding: 10,
     flex: 1,
     textAlign: 'center'
