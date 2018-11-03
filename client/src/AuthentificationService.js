@@ -1,5 +1,7 @@
+let url = "http://52153f97.ngrok.io";
+
 export const _register = (username, email, password) => {
-  return fetch('http://localhost:3000/register/', {
+  return fetch(url + '/register/', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -10,7 +12,7 @@ export const _register = (username, email, password) => {
 };
 
 export const _login = (username, password) => {
-  return fetch('http://localhost:3000/login/', {
+  return fetch(url + '/login/', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -22,7 +24,7 @@ export const _login = (username, password) => {
 
 export const _verifier = token => {
   console.log('VERIFIER!!!' + JSON.stringify({ token }));
-  return fetch('http://localhost:3000/verifier/', {
+  return fetch(url + '/verifier/', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
