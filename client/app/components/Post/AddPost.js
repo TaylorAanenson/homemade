@@ -7,14 +7,17 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  ScrollView
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import { _addPosts } from './PostService'
+import { _verifier } from '../../../src/AuthentificationService';
 
 export default class AddPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user_id: 1,
+      id: 1,
       location_id: 2,
       title: 'Untitled',
       price: 0,
@@ -26,34 +29,55 @@ export default class AddPost extends React.Component {
   createPost = () => {
     let title = this.state.title;
     let location_id = this.state.location_id;
-    let user_id = this.state.user_id;
+    let user_id = this.state.id;
     let price = parseFloat(this.state.price);
     let information = this.state.information;
     let ingredients = [];
 
     ingredients.push(this.state.ingredients);
 
-    fetch('http://fd491e4d.ngrok.io/posts', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title,
-        location_id,
-        user_id,
-        price,
-        information,
-        ingredients,
-      }),
-    }).then(res => res.json());
+    _addPosts(title, location_id, user_id, price, information, ingredients);
     //then redirects to post tab
   };
 
+  checkToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        // let token = JSON.stringify(value);
+        console.log('TOKEN!!' + value);
+        return _verifier(value).then(res => {
+          let tokenStr = JSON.stringify(res.verifiedToken);
+          let userData = JSON.parse(tokenStr);
+          console.log('STRING RETURN!!' + tokenStr);
+          console.log('PARSED RETURN!!' + userData);
+          if (userData.name === 'TokenExpiredError') {
+            Alert.alert('Session has expired');
+          } else {
+            this.setState({
+              isLoggedIn: userData.isLoggedIn,
+              id: userData._id,
+              username: userData.username,
+              email: userData.email,
+              firstname: userData.firstname,
+              lastname: userData.lastname,
+              create_date: userData.create_date
+            });
+          }
+        });
+      }
+    } catch (error) {
+      console.log('NO TOKEN!!!' + error);
+    }
+  };
+
+  componentWillMount() {
+    this.checkToken();
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.postStyle}>
           <Text>Title: </Text>
           <TextInput
@@ -91,7 +115,7 @@ export default class AddPost extends React.Component {
             onPress={this.createPost}
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -99,8 +123,7 @@ export default class AddPost extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'orange',
-    marginTop: 20,
+    backgroundColor: '#fff',
     alignSelf: 'stretch',
   },
   postStyle: {
@@ -108,7 +131,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     borderWidth: 1,
-    borderColor: 'grey',
+    borderColor: '#f4511e',
     backgroundColor: 'white',
     height: 50,
   },
@@ -120,7 +143,7 @@ const styles = StyleSheet.create({
   descriptionStyle: {
     height: 200,
     borderWidth: 1,
-    borderColor: 'grey',
+    borderColor: 'f4511e',
     backgroundColor: 'white',
   },
   buttonStyle: {
