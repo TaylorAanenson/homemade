@@ -18,6 +18,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { _loadOnePosts } from './PostService';
 
 export default class PostInfo extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -61,8 +62,18 @@ export default class PostInfo extends React.Component {
     this.checkToken();
   }
 
+  componentWillReceiveProps(){
+    this.setState({
+      isLoading: false,
+    })
+  }
+
   componentDidMount() {
-    return _loadOnePosts(1).then(resJSON => {
+    const { navigation } = this.props;
+    console.log(this.state);
+    let post_id = navigation.getParam('post_id', 'n/a');
+
+    return _loadOnePosts(post_id).then(resJSON => {
       this.setState(
         {
           isLoading: false,
@@ -77,9 +88,6 @@ export default class PostInfo extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    console.log(navigation);
-    // let post_id = navigation.getParam('post_id', 'n/a');
 
     if(this.state.isLoading){
       return (
@@ -94,7 +102,9 @@ export default class PostInfo extends React.Component {
         <ScrollView>
         {this.state.data.map(postInfo => {
           return(
-            <Text>postInfo.title</Text>
+            <View>
+              <Text>postInfo.title</Text>
+            </View>
           );
         })}
         </ScrollView>
