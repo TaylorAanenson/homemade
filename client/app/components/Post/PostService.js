@@ -1,4 +1,4 @@
-let routeURL = "http://52153f97.ngrok.io/posts"
+let routeURL = "http://localhost:3000/posts"
 
 export const _loadPosts = () => {
 	return fetch(routeURL).then(res => res.json())
