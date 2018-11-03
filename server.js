@@ -26,6 +26,9 @@ app.use("/", postRoute);
 var userAuthRoute = require("./routes/userAuth");
 app.use("/", userAuthRoute);
 
+var mapSearch = require("./routes/mapSearch");
+app.use("/", mapSearch);
+
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
 });
