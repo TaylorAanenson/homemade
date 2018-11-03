@@ -84,3 +84,12 @@ CREATE TABLE messages(
 	FOREIGN KEY(receiver_id) REFERENCES users(id),
 	PRIMARY KEY(id)
 );
+
+CREATE TABLE mapLocations(
+	id INT NOT NULL AUTO_INCREMENT,
+	latitude FLOAT(13) NOT NULL,
+    longitude FLOAT(13) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    crypto JSON NOT NULL,
+	PRIMARY KEY (id)
+);
