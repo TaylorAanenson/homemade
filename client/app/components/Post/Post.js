@@ -16,14 +16,15 @@ import { MapView } from "expo";
 import { createStackNavigator } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default class Post extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       text: "",
       isLoading: true,
       data: {},
-      search: ""
+      search: "",
+      post: ''
     };
   }
 
@@ -46,6 +47,14 @@ export default class Post extends React.Component {
       )
       .catch(err => console.log(err));
   };
+
+  viewPost = () => {
+    Alert.alert('hi');
+  }
+
+  buyPost = () => {
+    Alert.alert('buy me')
+  }
 
   componentDidMount() {
     return fetch("http://localhost:3000/posts")
@@ -87,14 +96,14 @@ export default class Post extends React.Component {
               name: "search",
               size: 20
             }}
-            buttonStyle={styles.buttonStyle}
+            buttonStyle={styles.searchButtonStyle}
             onPress={this.searchPost}
           />
         </View>
         <ScrollView>
           {this.state.data.map(postInfo => {
             return (
-              <View style={styles.postStyle} dataId={postInfo.id}>
+              <TouchableOpacity style={styles.postStyle} dataId={postInfo.id} onPress={this.viewPost}>
                 <Image
                   style={{ width: 100, height: 100 }}
                   source={{ url: "https://via.placeholder.com/50x50" }}
@@ -102,11 +111,11 @@ export default class Post extends React.Component {
                 <View style={{ marginLeft: 20, flex: 1 }}>
                   <Text style={styles.textStyle}>{postInfo.title}</Text>
                   <Text>{postInfo.information}</Text>
-                  <Text style={(styles.textStyle, styles.priceStyle)}>
-                    ${postInfo.price}
-                  </Text>
+                  <TouchableOpacity style={{alignContent: 'right', marginLeft: 120, marginTop: 10}} onPress={this.buyPost}>
+                    <Text style={styles.buyButtonStyle}>{"$" + postInfo.price}</Text>
+                  </TouchableOpacity>
                 </View>
-              </View>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>
@@ -125,14 +134,6 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 20,
     fontWeight: "bold"
-  },
-  priceStyle: {
-    fontSize: 20,
-    color: "green",
-    flex: 1,
-    textAlign: "right",
-    marginTop: 20,
-    marginLeft: 20
   },
   postStyle: {
     backgroundColor: "white",
@@ -154,12 +155,22 @@ const styles = StyleSheet.create({
   searchBarStyle: {
     flexDirection: "row"
   },
-  buttonStyle: {
+  searchButtonStyle: {
     backgroundColor: "tomato",
     width: 50,
     height: 45,
     alignContent: "center",
     borderRadius: 5,
     marginTop: 25
+  },
+  buyButtonStyle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    borderRadius: 10,
+    backgroundColor: 'orange',
+    padding: 10,
+    flex: 1,
+    textAlign: 'center'
   }
 });
