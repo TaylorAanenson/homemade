@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  ImageBackground
 } from 'react-native';
 import { _signUp, _login } from '../../../src/AuthentificationService';
 
@@ -40,6 +41,7 @@ export default class Login extends React.Component {
 
         this.setState(
           {
+            isPassingProps: true,
             isLoggedIn: true,
             id: res.result[0].id,
             username: res.result[0].username,
@@ -97,28 +99,48 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image
-          source={require('./assets/images/homemade-logo.png')}
-          style={styles.logo}
-        />
-        <Text style={styles.logoText}>HomeMade</Text>
-        <TextInput
-          style={styles.signin}
-          placeholder="Username"
-          onChangeText={username => this.setState({ username })}
-        />
-        <TextInput
-          style={styles.signin}
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={password => this.setState({ password })}
-        />
-        <TouchableOpacity onPress={this.checkLogin}>
-          <Text style={styles.buttonText}>Signin</Text>
-        </TouchableOpacity>
-        {this.state.isLoggedIn == true && <Text>you are logged in</Text>}
-        {this.state.isLoggedIn == false && <Text>you are not logged in</Text>}
+      <View style={{ flex: 1, alignSelf: 'stretch' }}>
+        <ImageBackground
+          style={{
+            flex: 1,
+            width: undefined,
+            height: undefined
+          }}
+          source={require('./assets/images/indian.jpg')}
+        >
+          <View style={styles.container}>
+            <Image
+              source={require('./assets/images/homemade-logo.png')}
+              style={styles.logo}
+            />
+            <Text style={styles.logoText}>HomeMade</Text>
+            <TextInput
+              style={styles.signin}
+              placeholder="Username"
+              onChangeText={username => this.setState({ username })}
+            />
+            <TextInput
+              style={styles.signin}
+              placeholder="Password"
+              secureTextEntry={true}
+              onChangeText={password => this.setState({ password })}
+            />
+            <TouchableOpacity
+              onPress={this.checkLogin}
+              style={{
+                margin: 5,
+                borderRadius: 5,
+                backgroundColor: '#ffffff'
+              }}
+            >
+              <Text style={styles.buttonText}>Signin</Text>
+            </TouchableOpacity>
+            {this.state.isLoggedIn == true && <Text>you are logged in</Text>}
+            {this.state.isLoggedIn == false && (
+              <Text>you are not logged in</Text>
+            )}
+          </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -127,7 +149,7 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'stretch'
@@ -148,10 +170,10 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 4,
     borderColor: 'black',
-	padding: 10,
-	margin: 2
+    padding: 10,
+    margin: 2
   },
   buttonText: {
-	  margin: 5
+    margin: 5
   }
 });
