@@ -1,20 +1,6 @@
 import * as React from "react";
 import { MapView, TextInput } from "expo";
 import { coordinate } from "./coordinates";
-import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Image,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-  FlatList,
-  ScrollView,
-  AsyncStorage
-} from "react-native";
 
 export default class Map extends React.Component {
   render() {

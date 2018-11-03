@@ -146,54 +146,20 @@ export default class BrowseScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        {/* <Text>Home Screen</Text>
-				<Button
-					title="Go to Settings"
-					onPress={() =>
-						this.props.navigation.navigate("Settings", {
-							_id: 1,
-							name: "Taylor",
-							age: 25,
-							sex: "Male",
-							foodPreference: "Vegan"
-						})
-					}
-				/>
-				<Button
-					title="Go to Cart"
-					onPress={() =>
-						this.props.navigation.navigate("Cart", {
-							_id: 1,
-							name: "Taylor",
-							age: 25,
-							sex: "Male",
-							foodPreference: "Vegan"
-						})
-					}
-				/> */}
-        {/* <Text onPress={this._updateCount}>{this.state.count}</Text> */}
-
-        {/* <View style={styles.search}>
-					<TextInput
-						type="text"
-						placeholder=" search for food or chef.."
-						style={styles.foodSearch}
-					/>
-				</View>
-				<View style={styles.location}>
-					<TextInput
-						type="text"
-						placeholder=" input your location"
-						style={styles.inputLocation}
-					/>
-				</View> */}
-
-        {/* <ScrollView style={{ flex: 1 }}> */}
-        {/* <View style={{ flex: 1 }}> */}
-        <Map style={StyleSheet.absoluteFillObject} />
-        {/* </View> */}
-        {/* </ScrollView> */}
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            justifyContent: "space-between",
+            flexDirection: "row",
+            height: 40
+          }}
+        >
+          <TextInput style={{ padding: 10 }} placeholder="enter search" />
+          <Button title="search" onPress={this.handleSubmit} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Map style={StyleSheet.absoluteFillObject} />
+        </View>
       </View>
     );
   }
